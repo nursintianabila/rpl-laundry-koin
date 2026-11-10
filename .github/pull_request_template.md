@@ -1,5 +1,4 @@
-@"
-## Deskripsi
+﻿## Deskripsi
 Jelaskan perubahan yang dibuat pada PR ini.
 
 ## Jenis perubahan
@@ -12,4 +11,3 @@ Jelaskan perubahan yang dibuat pada PR ini.
 - [ ] Pesan commit menjelaskan isi perubahan
 - [ ] Tidak ada data pribadi, kata sandi, atau kunci di dalam perubahan
 - [ ] Jurnal Vibe Coding sudah diperbarui
-"@ | Set-Content .github\pull_request_template.md -Encoding UTF8

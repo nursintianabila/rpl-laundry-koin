@@ -1,6 +1,9 @@
-@"
+
+﻿## Deskripsi
+=======
 
 ## Deskripsi
+
 
 Jelaskan perubahan yang dibuat pada PR ini.
 
@@ -11,6 +14,12 @@ Jelaskan perubahan yang dibuat pada PR ini.
 * \[ ] Dokumentasi
 
 ## Daftar periksa
+perbaikan-template-pr-2
+- [ ] Perubahan sudah saya periksa sendiri
+- [ ] Pesan commit menjelaskan isi perubahan
+- [ ] Tidak ada data pribadi, kata sandi, atau kunci di dalam perubahan
+- [ ] Jurnal Vibe Coding sudah diperbarui
+=======
 
 * \[ ] Perubahan sudah saya periksa sendiri
 * \[ ] Pesan commit menjelaskan isi perubahan
@@ -18,3 +27,4 @@ Jelaskan perubahan yang dibuat pada PR ini.
 * \[ ] Jurnal Vibe Coding sudah diperbarui
 "@ | Set-Content .github\\pull\_request\_template.md -Encoding UTF8
 
+ main

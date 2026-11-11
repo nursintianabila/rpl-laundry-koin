@@ -150,3 +150,15 @@ Validasi terhadap kebutuhan pengguna perlu dilakukan melalui wawancara dan obser
 AI digunakan sebagai alat bantu dalam menyusun rancangan awal user story, mengidentifikasi calon pengguna sistem, serta membuat kriteria penerimaan fitur.
 
 Hasil yang diberikan AI kemudian perlu diperiksa dan disesuaikan dengan kebutuhan proyek. Keputusan akhir mengenai fitur yang akan dikembangkan tetap berdasarkan hasil wawancara, observasi, dan persetujuan pihak pengelola laundry.
+
+# HASIL KRITIK AI TERHADAP USER STORY
+## Sistem Informasi Laundry Koin
+
+### 1. Analisis User Story
+
+| ID Story | Masalah yang Ditemukan | Saran Perbaikan |
+|---|---|---|
+| US-01 | **Independent:** Login merupakan kebutuhan dasar. **Testable:** Kriteria belum menjelaskan hasil ketika login gagal. | Perjelas menjadi login menggunakan akun terdaftar. Given pengguna berada di halaman login, When memasukkan username dan password yang benar, Then sistem memberikan akses masuk. **Asumsi:** Sistem menggunakan username dan password. |
+| US-02 | **Valuable:** Dashboard terlalu umum karena belum menyebutkan informasi yang dibutuhkan. **Estimable:** Cakupan ringkasan belum jelas. | Perjelas informasi yang ingin dilihat berdasarkan kebutuhan pemilik. Given pemilik berhasil login, When membuka dashboard, Then sistem menampilkan ringkasan informasi usaha yang tersedia. **Asumsi:** Jenis ringkasan belum dikonfirmasi. |
+| US-03 | **Small:** Melihat data transaksi masih cukup luas. **Testable:** Belum ada kriteria informasi yang ditampilkan. | Batasi pada melihat daftar transaksi. Given terdapat transaksi tersimpan, When pemilik membuka daftar transaksi, Then sistem menampilkan transaksi yang tercatat. **Asumsi:** Daftar transaksi memang dibutuhkan pemilik. |
+| US-04 | **Testable:** Istilah laporan pendapatan belum menjelaskan cara perhitungan dan informasi yang ditampilkan. | Perjelas menjadi melihat ringkasan pendapatan dari data transaksi. Given terdapat data transaksi, When pemilik membuka laporan pendapatan, Then sistem menampilkan ringkasan pendapatan berdasarkan data yang tersedia. **Asum

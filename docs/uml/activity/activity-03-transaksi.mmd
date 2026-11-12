@@ -1,0 +1,38 @@
+flowchart TD
+    A([Mulai]) --> B[Admin/Operator membuka menu transaksi]
+    B --> C[Sistem menampilkan halaman pengelolaan transaksi]
+    C --> D{Mencatat transaksi baru?}
+
+    D -- Ya --> E[Admin/Operator memilih pelanggan dan layanan]
+    E --> F{Pelanggan dan layanan sudah dipilih?}
+    F -- Tidak --> G[Sistem menolak penyimpanan dan menampilkan validasi]
+    G --> Z([Selesai])
+
+    F -- Ya --> H[Sistem menampilkan informasi pelanggan dan layanan]
+    H --> I[Admin/Operator memasukkan tanggal dan data wajib transaksi lainnya]
+    I --> J[Sistem menghitung total biaya berdasarkan data transaksi]
+    J --> K[Admin/Operator memeriksa dan menyimpan transaksi]
+    K --> L[Sistem memvalidasi data transaksi]
+    L --> M{Data transaksi lengkap dan valid?}
+
+    M -- Tidak --> N[Sistem menolak penyimpanan dan menampilkan informasi kesalahan]
+    N --> Z
+    M -- Ya --> O[Sistem menyimpan transaksi dan menampilkan informasi transaksi berhasil dicatat]
+    O --> Z
+
+    D -- Tidak --> P[Admin/Operator membuka transaksi yang telah tersimpan]
+    P --> Q[Sistem menampilkan rincian transaksi]
+    Q --> R[Admin/Operator memilih fungsi ubah data transaksi]
+    R --> S{Pengguna memiliki hak akses untuk mengubah?}
+
+    S -- Tidak --> T[Sistem menolak perubahan transaksi]
+    S -- Ya --> U[Admin/Operator memperbarui data transaksi]
+    U --> V[Sistem menyimpan perubahan transaksi]
+
+    T --> Z
+    V --> W[Admin/Operator melakukan pencarian riwayat berdasarkan informasi transaksi]
+    W --> X{Transaksi ditemukan?}
+    X -- Tidak --> Y[Sistem menampilkan bahwa tidak ada transaksi yang sesuai]
+    Y --> Z
+    X -- Ya --> AA[Sistem menampilkan transaksi yang sesuai dengan pencarian]
+    AA --> Z

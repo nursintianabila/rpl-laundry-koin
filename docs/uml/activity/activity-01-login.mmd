@@ -1,0 +1,14 @@
+
+flowchart TD
+    A([Mulai]) --> B[Pengguna membuka halaman login]
+    B --> C[Sistem menampilkan formulir login]
+    C --> D[Pengguna memasukkan username/email dan password]
+    D --> E[Sistem memeriksa data login]
+    E --> F{Apakah data login benar?}
+
+    F -- Tidak --> G[Sistem menampilkan pesan kesalahan]
+    G --> D
+
+    F -- Ya --> H[Sistem memeriksa peran pengguna]
+    H --> I[Sistem memberikan akses sesuai peran]
+    I --> J([Selesai])

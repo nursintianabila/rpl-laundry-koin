@@ -1,0 +1,35 @@
+
+flowchart LR
+
+    Owner["Pemilik (Owner)"]
+    Admin["Admin / Operator"]
+    Customer["Pelanggan"]
+
+    subgraph SISTEM["Sistem Informasi Laundry Koin"]
+        UC01(["UC-01: Login Pengguna"])
+        UC02(["UC-02: Mengakses Fitur Sesuai Hak Akses"])
+        UC03(["UC-03: Melihat Dashboard"])
+        UC04(["UC-04: Melihat Daftar dan Rincian Transaksi"])
+        UC05(["UC-05: Melihat Laporan Pendapatan"])
+        UC06(["UC-06: Mengelola Layanan dan Harga"])
+        UC07(["UC-07: Mengelola Data Pelanggan"])
+        UC08(["UC-08: Melihat Informasi Layanan dan Harga"])
+        UC09(["UC-09: Mengelola Transaksi"])
+        UC10(["UC-10: Memperbarui Status Mesin"])
+    end
+
+    Owner --- UC01
+    Owner --- UC02
+    Owner --- UC03
+    Owner --- UC04
+    Owner --- UC05
+    Owner --- UC06
+
+    Admin --- UC01
+    Admin --- UC02
+    Admin --- UC04
+    Admin --- UC07
+    Admin --- UC09
+    Admin --- UC10
+
+    Customer --- UC08

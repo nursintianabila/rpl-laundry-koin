@@ -1,5 +1,3 @@
-﻿
-
 \# SOFTWARE REQUIREMENTS SPECIFICATION (SRS)
 
 
@@ -486,6 +484,26 @@ Hal-hal berikut masih perlu dikonfirmasi sebelum kebutuhan dianggap final:
 
 
 
+\#### 8.1 Riwayat Konfirmasi dan Validasi Diagram
+
+
+
+Pada 12 November 2026 dilakukan simulasi pemeriksaan Use Case Diagram dan Activity Diagram Pengelolaan Transaksi untuk memeriksa kesesuaian aktor, fungsi, dan urutan proses berdasarkan PRD dan SRS.
+
+
+
+Hasil simulasi menunjukkan bahwa rancangan proses utama telah tergambarkan. Namun, akses langsung pelanggan dan teknisi, detail pencatatan transaksi, aturan perubahan transaksi, serta kriteria pencarian riwayat masih perlu dikonfirmasi.
+
+
+
+Simulasi ini bukan hasil wawancara atau persetujuan klien nyata. Validasi langsung kepada pemilik atau pengelola laundry masih diperlukan.
+
+
+
+Dokumen hasil simulasi: \[Catatan Validasi Diagram](elisitasi/validasi-diagram.md).
+
+
+
 \### 9. Evaluasi Penggunaan AI
 
 
@@ -495,3 +513,4 @@ AI digunakan sebagai alat bantu dalam menyusun kerangka SRS, merumuskan kebutuha
 
 
 Hasil yang diberikan AI diperiksa kembali dengan membandingkannya terhadap dokumen elisitasi dan ruang lingkup proyek. Kebutuhan yang belum didukung hasil wawancara ditandai sebagai asumsi dan tidak dinyatakan sebagai fakta. Keputusan akhir mengenai kebutuhan sistem tetap menjadi tanggung jawab pengembang dan perlu divalidasi kepada pihak pengelola laundry.
+

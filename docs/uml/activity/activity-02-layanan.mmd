@@ -1,0 +1,35 @@
+flowchart TD
+    A([Mulai]) --> B[Pemilik membuka menu layanan dan harga]
+    B --> C[Sistem menampilkan daftar layanan dan harga]
+    C --> D{Fungsi yang dipilih?}
+
+    D -- Tambah --> E[Sistem menampilkan formulir data layanan]
+    E --> F[Pemilik memasukkan nama layanan dan harga]
+    F --> G[Sistem memvalidasi data]
+    G --> H{Data valid?}
+    H -- Tidak --> I[Sistem menolak penyimpanan dan menampilkan informasi kesalahan]
+    I --> Z([Selesai])
+    H -- Ya --> J[Pemilik menyimpan data layanan]
+    J --> K[Sistem menyimpan data layanan dan harga]
+    K --> L{Penyimpanan berhasil?}
+
+    D -- Ubah --> M[Pemilik memilih layanan yang tersedia]
+    D -- Hapus --> M
+    M --> N[Sistem menampilkan data layanan yang dipilih]
+    N --> O{Fungsi ubah atau hapus?}
+
+    O -- Ubah --> P[Pemilik melakukan perubahan data layanan]
+    P --> Q[Sistem menyimpan perubahan data]
+    O -- Hapus --> R[Pemilik menghapus data layanan]
+    R --> S[Sistem menyimpan penghapusan data]
+
+    Q --> T{Penyimpanan berhasil?}
+    S --> T
+
+    L -- Tidak --> U[Sistem menampilkan informasi bahwa perubahan belum berhasil disimpan]
+    T -- Tidak --> U
+    U --> Z
+
+    L -- Ya --> V[Sistem menampilkan data layanan yang telah diperbarui]
+    T -- Ya --> V
+    V --> Z

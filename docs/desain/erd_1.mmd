@@ -1,0 +1,44 @@
+
+erDiagram
+    PERAN ||--o{ PENGGUNA : memiliki
+    PELANGGAN ||--o{ TRANSAKSI : melakukan
+    LAYANAN ||--o{ TRANSAKSI : digunakan_dalam
+
+    PENGGUNA {
+        int id_pengguna PK
+        varchar username_email UK
+        varchar password_hash
+        int id_peran FK
+    }
+
+    PERAN {
+        int id_peran PK
+        varchar nama_peran UK
+    }
+
+    PELANGGAN {
+        int id_pelanggan PK
+        varchar nama_pelanggan
+    }
+
+    LAYANAN {
+        int id_layanan PK
+        varchar nama_layanan
+        decimal harga
+    }
+
+    TRANSAKSI {
+        int id_transaksi PK
+        int id_pelanggan FK
+        int id_layanan FK
+        date tanggal
+        decimal berat
+        decimal total_biaya
+    }
+
+    MESIN {
+        int id_mesin PK
+        varchar informasi_mesin
+        varchar status_mesin
+    }
+

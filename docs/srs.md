@@ -504,6 +504,27 @@ Dokumen hasil simulasi: \[Catatan Validasi Diagram](elisitasi/validasi-diagram.m
 
 
 
+
+### 8.2 Daftar Pertanyaan Konfirmasi Aturan Data
+
+Bagian ini berisi daftar pertanyaan untuk memastikan aturan pengelolaan data sesuai dengan kebutuhan pemilik atau pengelola Laundry Koin. Pertanyaan disusun menggunakan bahasa sederhana agar mudah dipahami oleh klien.
+
+| No. | Pertanyaan Konfirmasi | Jawaban Klien | Status |
+|---|---|---|---|
+| 1 | Apakah harga layanan laundry boleh diubah sewaktu-waktu oleh pemilik? | Belum diisi | Belum dikonfirmasi |
+| 2 | Jika harga layanan berubah, apakah biaya transaksi lama harus tetap menggunakan harga saat transaksi dilakukan? | Belum diisi | Belum dikonfirmasi |
+| 3 | Apakah data pelanggan yang sudah tersimpan boleh diubah atau dihapus? | Belum diisi | Belum dikonfirmasi |
+| 4 | Apakah transaksi yang sudah dicatat boleh diedit atau dibatalkan jika terjadi kesalahan? | Belum diisi | Belum dikonfirmasi |
+| 5 | Jika transaksi dibatalkan, apakah catatan transaksi tersebut tetap perlu disimpan sebagai riwayat? | Belum diisi | Belum dikonfirmasi |
+| 6 | Berapa lama data pelanggan dan riwayat transaksi perlu disimpan dalam sistem? | Belum diisi | Belum dikonfirmasi |
+| 7 | Siapa saja yang boleh menambah, mengubah, dan menghapus data pelanggan, layanan, serta transaksi? | Belum diisi | Belum dikonfirmasi |
+| 8 | Apakah pemilik perlu mengelola informasi dan status mesin, misalnya tersedia, digunakan, atau rusak? | Belum diisi | Belum dikonfirmasi |
+
+**Catatan Konfirmasi:**
+
+Daftar pertanyaan ini disiapkan sebagai bahan konfirmasi kepada pemilik atau pengelola Laundry Koin. Jawaban klien belum diperoleh sehingga belum digunakan untuk mengubah aturan atau batasan pada kamus data. Perubahan kebutuhan akan dicatat setelah konfirmasi benar-benar dilakukan.
+
+
 \### 9. Evaluasi Penggunaan AI
 
 

@@ -37,7 +37,7 @@ Kamus data disusun berdasarkan hasil normalisasi, ERD, dan kebutuhan fungsional 
 |---|---|---|---|---|---|
 | id_layanan | INT | Ya | PK | Dibuat otomatis dan harus unik. | KF-07 |
 | nama_layanan | VARCHAR(100) | Ya | - | Nama layanan harus diisi. | KF-07, KF-09 |
-| harga | DECIMAL(12,2) | Ya | - | Harga tidak boleh bernilai negatif. | KF-07, KF-09 |
+| harga | INTEGER | Ya | - | Harga disimpan dalam bilangan bulat rupiah dan tidak boleh bernilai negatif. | KF-07, KF-09 |
 
 ### 6. Kamus Data Tabel Transaksi
 
@@ -46,9 +46,9 @@ Kamus data disusun berdasarkan hasil normalisasi, ERD, dan kebutuhan fungsional 
 | id_transaksi | INT | Ya | PK | Dibuat otomatis dan harus unik. | KF-10 |
 | id_pelanggan | INT | Ya | FK | Harus mengacu pada id_pelanggan di tabel Pelanggan. | KF-10 |
 | id_layanan | INT | Ya | FK | Harus mengacu pada id_layanan di tabel Layanan. | KF-10 |
-| tanggal | DATE | Ya | - | Menyimpan tanggal transaksi. | KF-10 |
-| berat | DECIMAL(8,2) | Ya | - | Berat laundry harus lebih besar dari nol dan menggunakan satuan kilogram. | KF-10 |
-| total_biaya | DECIMAL(12,2) | Ya | - | Tidak boleh negatif dan disimpan berdasarkan perhitungan saat transaksi dilakukan. | KF-10 |
+| tanggal | TEXT | Ya | - | Menyimpan tanggal transaksi dengan format YYYY-MM-DD. | KF-10 |
+| berat | REAL | Ya | - | Berat laundry harus lebih besar dari nol dan menggunakan satuan kilogram. | KF-10 |
+| total_biaya | INTEGER | Ya | - | Disimpan dalam bilangan bulat rupiah, tidak boleh negatif, dan mencatat biaya saat transaksi dilakukan. | KF-10 |
 
 ### 7. Kamus Data Tabel Mesin
 
@@ -56,7 +56,7 @@ Kamus data disusun berdasarkan hasil normalisasi, ERD, dan kebutuhan fungsional 
 |---|---|---|---|---|---|
 | id_mesin | INT | Ya | PK | Dibuat otomatis dan harus unik. | KF-14 |
 | informasi_mesin | VARCHAR(150) | Ya | - | Menyimpan informasi atau identitas mesin. | KF-14 |
-| status_mesin | VARCHAR(30) | Ya | - | Nilai mengikuti pilihan status yang ditetapkan sistem. | KF-14 |
+| status_mesin | VARCHAR(30) | Ya | - | Status wajib diisi dan maksimal 30 karakter. | KF-14 |
 
 ### 8. Keterangan Kunci
 
@@ -67,12 +67,12 @@ Kamus data disusun berdasarkan hasil normalisasi, ERD, dan kebutuhan fungsional 
 
 ### 9. Catatan Perancangan
 
-1. Tipe data dalam kamus data merupakan rancangan awal dan dapat disesuaikan dengan DBMS yang digunakan.
+1. Tipe data disesuaikan dengan SQLite. Kolom harga dan total_biaya menggunakan INTEGER, berat menggunakan REAL, tanggal menggunakan TEXT berformat YYYY-MM-DD, sedangkan kolom teks menggunakan VARCHAR sesuai batas panjang yang ditetapkan.
 2. Seluruh ID direncanakan menggunakan nomor otomatis (auto increment).
 3. Kata sandi pengguna harus disimpan dalam bentuk hash untuk menjaga keamanan akun.
 4. Nilai total_biaya disimpan sebagai catatan biaya pada saat transaksi dilakukan agar riwayat transaksi tidak berubah ketika harga layanan diperbarui.
 5. Atribut berat digunakan berdasarkan contoh data transaksi laundry simulasi dengan perhitungan kilogram.
-6. Pengelolaan mesin saat ini dibatasi pada informasi dan status mesin sesuai kebutuhan KF-14.
+6. Pengelolaan mesin saat ini dibatasi pada informasi dan status mesin sesuai kebutuhan KF-14. Status mesin wajib diisi dan dibatasi maksimal 30 karakter.
 
 ### 10. Sumber
 

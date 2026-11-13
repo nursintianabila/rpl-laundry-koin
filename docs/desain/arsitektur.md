@@ -146,17 +146,17 @@ Aturan ini diterapkan agar pengelolaan database terpusat dan perubahan pada data
 
 ### 6. Urutan Pengembangan Modul Sprint 1
 
-Berdasarkan Product Backlog, Sprint 1 memiliki tiga kebutuhan fungsional utama yang termasuk prioritas Must Have.
+Berdasarkan SRS dan Product Backlog, pengembangan Sprint 1 diprioritaskan pada tiga kebutuhan fungsional yang termasuk kategori Must Have, yaitu login pengguna, pengelolaan layanan dan harga, serta pengelolaan data pelanggan.
 
 Urutan pengembangan modul yang direncanakan adalah:
 
 | Urutan | ID Kebutuhan | Modul | Alasan |
 |---|---|---|---|
-| 1 | KF-01 | Login dan hak akses pengguna | Menjadi dasar keamanan dan pembatasan akses sistem. |
-| 2 | KF-02 | Pengelolaan layanan dan harga | Menyediakan data layanan serta harga yang dibutuhkan dalam proses transaksi. |
-| 3 | KF-03 | Pengelolaan data pelanggan | Menyediakan data pelanggan yang akan digunakan dalam pencatatan transaksi. |
+| 1 | KF-01 | Login pengguna | Menjadi dasar autentikasi pengguna sebelum mengakses sistem. |
+| 2 | KF-07 | Pengelolaan layanan dan harga | Menyediakan data layanan dan harga yang dibutuhkan dalam proses transaksi. |
+| 3 | KF-08 | Pengelolaan data pelanggan | Menyediakan data pelanggan yang dibutuhkan dalam pencatatan transaksi. |
 
-Pengembangan dilakukan secara berurutan agar setiap modul dapat menjadi dasar bagi modul berikutnya.
+Pengembangan dilakukan secara bertahap agar setiap modul dapat mendukung proses pengembangan modul berikutnya.
 
 ### 7. Kesimpulan
 

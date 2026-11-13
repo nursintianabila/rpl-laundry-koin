@@ -1,4 +1,3 @@
-
 erDiagram
     PERAN ||--o{ PENGGUNA : memiliki
     PELANGGAN ||--o{ TRANSAKSI : melakukan
@@ -24,7 +23,7 @@ erDiagram
     LAYANAN {
         int id_layanan PK
         varchar nama_layanan
-        decimal harga
+        int harga
     }
 
     TRANSAKSI {
@@ -32,8 +31,8 @@ erDiagram
         int id_pelanggan FK
         int id_layanan FK
         date tanggal
-        decimal berat
-        decimal total_biaya
+        float berat
+        int total_biaya
     }
 
     MESIN {
@@ -41,4 +40,3 @@ erDiagram
         varchar informasi_mesin
         varchar status_mesin
     }
-

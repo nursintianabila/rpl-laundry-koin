@@ -171,7 +171,34 @@ Pengujian nilai batas diterapkan apabila persyaratan memiliki ambang atau batas 
 
 Berdasarkan persyaratan Must Have yang telah diperiksa, belum ditemukan batas numerik seperti panjang minimum atau maksimum karakter, rentang harga, maupun batas jumlah data. Oleh karena itu, nilai batas numerik belum dapat ditentukan tanpa mengarang ketentuan baru. Pengujian nilai batas akan ditambahkan apabila batas tersebut sudah ditetapkan dalam dokumen kebutuhan.
 
+### 8. Matriks Keterlacakan KF, Use Case, Halaman, dan Test Case
 
-### 8. Penutup
+Matriks ini menghubungkan kebutuhan fungsional (KF) dengan Use Case, halaman sistem, prioritas kebutuhan, dan test case yang digunakan untuk menguji kebutuhan tersebut.
+
+| KF | Use Case | Halaman | Prioritas | Test Case |
+|---|---|---|---|---|
+| KF-01 | UC-01 Login pengguna | WF-01 Login | Must | TC-F01, TC-F02 |
+| KF-02 | UC-02 Mengakses fitur sesuai hak akses | Navigasi/menu sesuai peran pengguna | Must | TC-F03 |
+| KF-03 | UC-03 Melihat dashboard | WF-02 Dashboard | Should | Belum disusun |
+| KF-04 | UC-04 Melihat daftar dan rincian transaksi | WF-03 Daftar Transaksi | Should | Belum disusun |
+| KF-05 | UC-05 Melihat laporan pendapatan berdasarkan periode | WF-08 Laporan Pendapatan | Should | Belum disusun |
+| KF-06 | UC-05 Melihat laporan pendapatan berdasarkan periode | WF-08 Laporan Pendapatan | Should | Belum disusun |
+| KF-07 | UC-06 Mengelola layanan dan harga | WF-06 Layanan dan Harga | Must | TC-F04, TC-F05, TC-F06, TC-F07 |
+| KF-08 | UC-07 Mengelola data pelanggan | WF-07 Data Pelanggan | Must | TC-F08, TC-F09, TC-F10, TC-F11 |
+| KF-09 | UC-08 Melihat informasi layanan dan harga | WF-06 Layanan dan Harga | Should | Belum disusun |
+| KF-10 | UC-09 Mengelola transaksi | WF-04 Form Transaksi | Must | TC-F12, TC-F13 |
+| KF-11 | UC-09 Mengelola transaksi | WF-04 Form Transaksi, WF-05 Detail Transaksi | Should | Belum disusun |
+| KF-12 | UC-09 Mengelola transaksi | WF-03 Daftar Transaksi | Must | TC-F14, TC-F15 |
+| KF-14 | UC-10 Memperbarui status mesin | WF-09 Status Mesin | Should | Belum disusun |
+| KF-15 | UC-04 Melihat daftar dan rincian transaksi | WF-05 Detail Transaksi | Should | Belum disusun |
+
+**Catatan:**
+1. Seluruh kebutuhan fungsional Must telah memiliki test case yang sesuai.
+2. Test case untuk kebutuhan Should belum disusun karena pengujian pada Langkah 8 diprioritaskan untuk fitur Must Have.
+3. Kebutuhan berprioritas Could, yaitu KF-13, KF-16, dan KF-17, tidak dimasukkan karena matriks ini berfokus pada kebutuhan Must dan Should.
+4. Kode WF mengacu pada urutan halaman dalam dokumen wireframe di `docs/desain/wireframe/`.
+
+### 9. Penutup
 
 Rencana pengujian ini menjadi pedoman untuk menguji Sistem Informasi Laundry Koin sebelum diterapkan. Pengujian diprioritaskan pada seluruh fitur Must Have, dilanjutkan dengan fitur Should Have, pengujian otomatis dasar, dan UAT bersama klien. Hasil pengujian digunakan sebagai dasar untuk memperbaiki kekurangan dan memastikan sistem sesuai dengan kebutuhan pengguna.
+

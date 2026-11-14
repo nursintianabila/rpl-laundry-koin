@@ -1,0 +1,44 @@
+﻿flowchart LR
+    L["Login"]
+    D["Dashboard (Pemilik)"]
+    T["Daftar Transaksi (Pemilik/Admin)"]
+    F["Form Transaksi (Admin/Operator)"]
+    R["Detail Transaksi (Pemilik/Admin)"]
+    S["Layanan dan Harga (Pemilik)"]
+    P["Laporan Pendapatan (Pemilik)"]
+    C["Data Pelanggan (Admin/Operator)"]
+    M["Status Mesin (Admin/Operator)"]
+    X["Logout"]
+
+    L -->|Login sebagai Pemilik| D
+    L -->|Login sebagai Admin/Operator| T
+
+    D -->|Menu Transaksi| T
+    D -->|Menu Layanan| S
+    D -->|Menu Laporan| P
+
+    T -->|Tambah Transaksi| F
+    F -->|Simpan atau Batal| T
+
+    T -->|Pilih Detail| R
+    R -->|Kembali| T
+
+    T -->|Menu Data Pelanggan| C
+    C -->|Kembali ke Transaksi| T
+
+    T -->|Menu Status Mesin| M
+    M -->|Kembali ke Transaksi| T
+
+    S -->|Kembali melalui menu| D
+    P -->|Kembali melalui menu| D
+
+    D --> X
+    T --> X
+    F --> X
+    R --> X
+    S --> X
+    P --> X
+    C --> X
+    M --> X
+
+    X --> L

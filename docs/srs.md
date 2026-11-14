@@ -308,49 +308,28 @@ Matriks ini menghubungkan setiap user story dengan kebutuhan fungsional, use cas
 
 
 
-| User Story | Kebutuhan Fungsional | Use Case | Kebutuhan Nonfungsional |
-
-|---|---|---|---|
-
-| US-01 | KF-01, KF-02 | UC-01, UC-02 | KNF-01, KNF-05 |
-
-| US-02 | KF-03 | UC-03 | KNF-02, KNF-06 |
-
-| US-03 | KF-04 | UC-04 | KNF-02, KNF-05 |
-
-| US-04 | KF-05 | UC-05 | KNF-02, KNF-04 |
-
-| US-05 | KF-06 | UC-05 | KNF-04, KNF-06 |
-
-| US-06 | KF-07 | UC-06 | KNF-04, KNF-05 |
-
-| US-07 | KF-02 | UC-02 | KNF-01, KNF-05 |
-
-| US-08 | KF-01, KF-02 | UC-01, UC-02 | KNF-01, KNF-05 |
-
-| US-09 | KF-08 | UC-07 | KNF-04, KNF-05 |
-
-| US-10 | KF-09 | UC-08 | KNF-03, KNF-06 |
-
-| US-11 | KF-10 | UC-09 | KNF-02, KNF-04, KNF-05 |
-
-| US-12 | KF-11 | UC-09 | KNF-04, KNF-05 |
-
-| US-13 | KF-12 | UC-09 | KNF-02, KNF-04 |
-
-| US-14 | KF-13 | Belum dimodelkan | KNF-04, KNF-05 |
-
-| US-15 | KF-14 | UC-10 | KNF-04, KNF-05 |
-
-| US-16 | KF-09 | UC-08 | KNF-03, KNF-06 |
-
-| US-17 | KF-09 | UC-08 | KNF-03, KNF-06 |
-
-| US-18 | KF-15 | UC-04 | KNF-03, KNF-06 |
-
-| US-19 | KF-16 | Belum dimodelkan | KNF-05 |
-
-| US-20 | KF-17 | Belum dimodelkan | KNF-04, KNF-05 |
+| User Story | Kebutuhan Fungsional | Use Case | Kebutuhan Nonfungsional | Uji |
+|---|---|---|---|---|
+| US-01 | KF-01, KF-02 | UC-01, UC-02 | KNF-01, KNF-05 | TC-F01, TC-F02, TC-F03 |
+| US-02 | KF-03 | UC-03 | KNF-02, KNF-06 | Belum disusun |
+| US-03 | KF-04 | UC-04 | KNF-02, KNF-05 | Belum disusun |
+| US-04 | KF-05 | UC-05 | KNF-02, KNF-04 | Belum disusun |
+| US-05 | KF-06 | UC-05 | KNF-04, KNF-06 | Belum disusun |
+| US-06 | KF-07 | UC-06 | KNF-04, KNF-05 | TC-F04, TC-F05, TC-F06, TC-F07 |
+| US-07 | KF-02 | UC-02 | KNF-01, KNF-05 | TC-F03 |
+| US-08 | KF-01, KF-02 | UC-01, UC-02 | KNF-01, KNF-05 | TC-F01, TC-F02, TC-F03 |
+| US-09 | KF-08 | UC-07 | KNF-04, KNF-05 | TC-F08, TC-F09, TC-F10, TC-F11 |
+| US-10 | KF-09 | UC-08 | KNF-03, KNF-06 | Belum disusun |
+| US-11 | KF-10 | UC-09 | KNF-02, KNF-04, KNF-05 | TC-F12, TC-F13 |
+| US-12 | KF-11 | UC-09 | KNF-04, KNF-05 | Belum disusun |
+| US-13 | KF-12 | UC-09 | KNF-02, KNF-04 | TC-F14, TC-F15 |
+| US-14 | KF-13 | Belum dimodelkan | KNF-04, KNF-05 | — (di luar cakupan) |
+| US-15 | KF-14 | UC-10 | KNF-04, KNF-05 | Belum disusun |
+| US-16 | KF-09 | UC-08 | KNF-03, KNF-06 | Belum disusun |
+| US-17 | KF-09 | UC-08 | KNF-03, KNF-06 | Belum disusun |
+| US-18 | KF-15 | UC-04 | KNF-03, KNF-06 | Belum disusun |
+| US-19 | KF-16 | Belum dimodelkan | KNF-05 | — (di luar cakupan) |
+| US-20 | KF-17 | Belum dimodelkan | KNF-04, KNF-05 | — (di luar cakupan) |
 
 
 

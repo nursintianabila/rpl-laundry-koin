@@ -143,6 +143,35 @@ Pembagian tugas pengujian direncanakan sebagai berikut:
 
 Pembagian tugas dapat disesuaikan dengan ketersediaan anggota kelompok dan pihak klien.
 
-### 7. Penutup
+### 7. Daftar Test Case
+
+Test case disusun berdasarkan lima fitur Must Have pada PRD. Setiap test case mengacu pada satu fitur dan mencakup skenario valid serta tidak valid.
+
+| ID | KF | Prasyarat/Data Uji | Langkah Pengujian | Hasil yang Diharapkan | Teknik |
+|---|---|---|---|---|---|
+| TC-F01 | Login dan hak akses pengguna | Akun pengguna terdaftar dengan username dan password yang benar | Masukkan username dan password yang benar, kemudian klik Login | Pengguna berhasil masuk dan diarahkan ke halaman sesuai perannya | Partisi ekuivalen |
+| TC-F02 | Login dan hak akses pengguna | Akun terdaftar, tetapi password yang dimasukkan salah | Masukkan username benar dan password salah, kemudian klik Login | Sistem menolak login dan menampilkan pesan kesalahan | Partisi ekuivalen |
+| TC-F03 | Login dan hak akses pengguna | Pengguna berhasil login dengan peran tertentu | Coba membuka menu yang tidak diizinkan untuk peran pengguna tersebut | Sistem menolak akses ke menu yang tidak sesuai dengan hak akses pengguna | Partisi ekuivalen |
+| TC-F04 | Pengelolaan layanan dan harga | Pengguna login sebagai Pemilik; data layanan dan harga valid | Tambahkan layanan baru beserta harganya, kemudian simpan | Layanan baru tersimpan dan muncul pada daftar layanan | Partisi ekuivalen |
+| TC-F05 | Pengelolaan layanan dan harga | Tersedia data layanan yang sudah tersimpan | Ubah nama atau harga layanan, simpan perubahan, lalu periksa daftar layanan | Data layanan berubah sesuai informasi yang diperbarui | Partisi ekuivalen |
+| TC-F06 | Pengelolaan layanan dan harga | Tersedia data layanan yang sudah tersimpan | Hapus salah satu layanan dan periksa daftar layanan | Layanan yang dipilih tidak lagi muncul pada daftar layanan | Partisi ekuivalen |
+| TC-F07 | Pengelolaan layanan dan harga | Form tambah atau ubah layanan tersedia | Kosongkan data wajib pada formulir, kemudian simpan | Sistem menolak penyimpanan dan menampilkan validasi pada data yang wajib diisi | Partisi ekuivalen |
+| TC-F08 | Pengelolaan data pelanggan | Pengguna login sebagai Admin/Operator; data pelanggan valid | Tambahkan data pelanggan, kemudian simpan | Data pelanggan tersimpan dan muncul pada daftar pelanggan | Partisi ekuivalen |
+| TC-F09 | Pengelolaan data pelanggan | Tersedia data pelanggan yang sudah tersimpan | Ubah informasi pelanggan, kemudian simpan | Data pelanggan berubah sesuai informasi yang diperbarui | Partisi ekuivalen |
+| TC-F10 | Pengelolaan data pelanggan | Tersedia data pelanggan yang sudah tersimpan | Hapus salah satu data pelanggan | Data pelanggan yang dipilih tidak lagi muncul pada daftar pelanggan | Partisi ekuivalen |
+| TC-F11 | Pengelolaan data pelanggan | Form tambah pelanggan tersedia | Kosongkan data yang diwajibkan pada formulir, kemudian simpan | Sistem menolak penyimpanan dan menampilkan validasi data wajib | Partisi ekuivalen |
+| TC-F12 | Pencatatan transaksi | Data pelanggan dan layanan tersedia; data transaksi valid | Pilih pelanggan dan layanan, isi data wajib transaksi, kemudian simpan | Transaksi berhasil disimpan dan informasi pelanggan, layanan, tanggal, serta total biaya tercatat | Partisi ekuivalen |
+| TC-F13 | Pencatatan transaksi | Form pencatatan transaksi tersedia | Kosongkan salah satu data wajib, kemudian simpan | Sistem menolak penyimpanan dan menampilkan pesan validasi | Partisi ekuivalen |
+| TC-F14 | Riwayat transaksi | Terdapat transaksi yang sudah tersimpan | Cari transaksi menggunakan informasi transaksi yang sesuai | Sistem menampilkan transaksi yang cocok dengan informasi pencarian | Partisi ekuivalen |
+| TC-F15 | Riwayat transaksi | Terdapat transaksi yang sudah tersimpan | Cari transaksi menggunakan informasi yang tidak cocok dengan data transaksi | Sistem tidak menampilkan transaksi yang cocok dan memberikan informasi bahwa data tidak ditemukan | Partisi ekuivalen |
+
+#### Catatan Pengujian Nilai Batas
+
+Pengujian nilai batas diterapkan apabila persyaratan memiliki ambang atau batas nilai yang dinyatakan secara jelas dalam PRD, SRS, atau kamus data.
+
+Berdasarkan persyaratan Must Have yang telah diperiksa, belum ditemukan batas numerik seperti panjang minimum atau maksimum karakter, rentang harga, maupun batas jumlah data. Oleh karena itu, nilai batas numerik belum dapat ditentukan tanpa mengarang ketentuan baru. Pengujian nilai batas akan ditambahkan apabila batas tersebut sudah ditetapkan dalam dokumen kebutuhan.
+
+
+### 8. Penutup
 
 Rencana pengujian ini menjadi pedoman untuk menguji Sistem Informasi Laundry Koin sebelum diterapkan. Pengujian diprioritaskan pada seluruh fitur Must Have, dilanjutkan dengan fitur Should Have, pengujian otomatis dasar, dan UAT bersama klien. Hasil pengujian digunakan sebagai dasar untuk memperbaiki kekurangan dan memastikan sistem sesuai dengan kebutuhan pengguna.

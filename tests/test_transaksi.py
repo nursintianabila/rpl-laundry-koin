@@ -203,7 +203,15 @@ class UjiTransaksi(unittest.TestCase):
         self.assertEqual(hasil.status_code, 200)
         self.assertIn("&lt;b&gt;tes&lt;/b&gt;", teks)
 
-    def test_total_biaya_dihitung_dari_harga_layanan(self):
+    def test_tanggal_tanpa_tanda_hubung_ditolak(self):
+        hasil = self.klien.post(
+            "/transaksi/tambah",
+            data={"id_pelanggan": "1", "id_layanan": "1", "tanggal": "20261108", "berat": "1"},
+        )
+        teks = hasil.data.decode("utf-8")
+
+        self.assertEqual(hasil.status_code, 200)
+        self.assertIn("Tanggal harus berformat TTTT-BB-HH.", teks)
         hasil = self.klien.post(
             "/transaksi/tambah",
             data={"id_pelanggan": "1", "id_layanan": "1", "tanggal": "2026-11-21", "berat": "3"},

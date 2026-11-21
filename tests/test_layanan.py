@@ -100,6 +100,16 @@ class UjiLayanan(unittest.TestCase):
         self.assertIn("Nama layanan sudah ada.", teks)
         self.assertEqual(len(models.semua_layanan()), 1)
 
+    def test_harga_unicode_ditolak(self):
+        hasil = self.klien.post(
+            "/layanan/tambah",
+            data={"nama_layanan": "Cuci", "harga": "²"},
+        )
+        teks = hasil.data.decode("utf-8")
+
+        self.assertEqual(hasil.status_code, 200)
+        self.assertIn("Harga harus berupa bilangan bulat", teks)
+
     def test_form_tambah_dapat_dibuka(self):
         hasil = self.klien.get("/layanan/tambah")
         teks = hasil.data.decode("utf-8")

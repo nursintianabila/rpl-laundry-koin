@@ -43,6 +43,8 @@ def periksa_isian(nama_layanan, harga, id_layanan=None):
 
     if not harga_teks:
         galat.append("Harga wajib diisi.")
+    elif not (harga_teks.isascii() and harga_teks.isdigit()):
+        galat.append("Harga harus berupa bilangan bulat, misalnya 10000.")
     else:
         try:
             nilai_harga = int(harga_teks)

@@ -1,5 +1,6 @@
 """Logika bisnis pengelolaan transaksi laundry."""
 
+import re
 from datetime import date
 
 import models
@@ -58,10 +59,13 @@ def periksa_isian(id_pelanggan, id_layanan, tanggal, berat):
             galat.append("Layanan tidak ditemukan.")
 
     tgl = (tanggal or "").strip()
-    try:
-        date.fromisoformat(tgl)
-    except ValueError:
+    if not re.fullmatch(r"[0-9]{4}-[0-9]{2}-[0-9]{2}", tgl):
         galat.append("Tanggal harus berformat TTTT-BB-HH.")
+    else:
+        try:
+            date.fromisoformat(tgl)
+        except ValueError:
+            galat.append("Tanggal harus berformat TTTT-BB-HH.")
 
     berat_nilai = None
     try:

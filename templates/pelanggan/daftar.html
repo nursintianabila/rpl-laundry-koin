@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block judul %}Data Pelanggan{% endblock %}
+
+{% block isi %}
+<h1>DATA PELANGGAN</h1>
+
+<p>
+  <a class="tombol" href="{{ url_for('pelanggan.tambah') }}">+ Tambah Pelanggan</a>
+</p>
+
+{% if daftar_pelanggan %}
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nama Pelanggan</th>
+      <th>Aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for pelanggan in daftar_pelanggan %}
+    <tr>
+      <td>{{ pelanggan.id_pelanggan }}</td>
+      <td>{{ pelanggan.nama_pelanggan }}</td>
+      <td class="aksi">
+        <a href="{{ url_for('pelanggan.ubah', id_pelanggan=pelanggan.id_pelanggan) }}">Ubah</a>
+        <form method="post"
+              action="{{ url_for('pelanggan.hapus', id_pelanggan=pelanggan.id_pelanggan) }}"
+              onsubmit="return confirm('Yakin ingin menghapus pelanggan ini?');">
+          <button type="submit" class="tombol-kecil bahaya">Hapus</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="teks-muted">Belum ada data pelanggan.</p>
+{% endif %}
+{% endblock %}

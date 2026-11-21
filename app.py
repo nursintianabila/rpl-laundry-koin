@@ -3,7 +3,7 @@ import os
 from flask import Flask
 
 import models
-from routes import layanan_routes
+from routes import layanan_routes, pelanggan_routes
 
 
 def buat_aplikasi():
@@ -16,6 +16,7 @@ def buat_aplikasi():
 
     models.init_db()
     app.register_blueprint(layanan_routes.bp)
+    app.register_blueprint(pelanggan_routes.bp)
 
     @app.template_filter("rupiah")
     def format_rupiah(nilai):

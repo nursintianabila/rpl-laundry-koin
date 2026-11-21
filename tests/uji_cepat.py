@@ -1,4 +1,4 @@
-"""Uji regresi cepat Jobsheet 10.
+"""Uji regresi cepat Jobsheet 10/11.
 
 Jalankan dari folder proyek:
     python tests/uji_cepat.py
@@ -18,7 +18,12 @@ models.init_db()
 
 import app as aplikasi
 
+from services import auth_service
+auth_service.buat_pengguna("pemilik@example.com", "pemilik123", "Pemilik")
+auth_service.buat_pengguna("admin@example.com", "admin123", "Admin/Operator")
+
 c = aplikasi.app.test_client()
+c.post("/login", data={"username_email": "admin@example.com", "password": "admin123"})
 
 
 def kirim(url, **data):

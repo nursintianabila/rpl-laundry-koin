@@ -1,23 +1,31 @@
 import os
 
-from flask import Flask
+from flask import Flask, abort, g, render_template
 
 import models
-from routes import layanan_routes, pelanggan_routes, transaksi_routes
+from routes import auth_routes, layanan_routes, pelanggan_routes, transaksi_routes
+from services import auth_service
 
 
 def buat_aplikasi():
     """Membuat dan mengatur aplikasi Flask."""
     app = Flask(__name__)
 
-    # Kunci rahasia diambil dari variabel lingkungan. Bila tidak diatur,
-    # gunakan nilai acak agar tidak ada kunci rahasia yang tertulis di kode.
     app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
 
     models.init_db()
+    app.register_blueprint(auth_routes.bp)
     app.register_blueprint(layanan_routes.bp)
     app.register_blueprint(pelanggan_routes.bp)
     app.register_blueprint(transaksi_routes.bp)
+
+    @app.before_request
+    def muat_pengguna():
+        auth_service.muat_pengguna_dari_sesi()
+
+    @app.errorhandler(403)
+    def akses_ditolak(kesalahan):
+        return render_template("errors/403.html"), 403
 
     @app.template_filter("rupiah")
     def format_rupiah(nilai):
@@ -31,5 +39,4 @@ app = buat_aplikasi()
 
 
 if __name__ == "__main__":
-    # Mode debug hanya aktif bila FLASK_DEBUG=1, tidak aktif secara bawaan.
     app.run(debug=os.environ.get("FLASK_DEBUG") == "1")

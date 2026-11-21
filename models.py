@@ -30,6 +30,48 @@ def init_db():
     if not DB_PATH.exists():
         with koneksi() as db:
             db.executescript(SCHEMA.read_text(encoding="utf-8"))
+    seed_peran()
+
+
+def seed_peran():
+    """Memastikan peran dasar tersedia."""
+    peran_dasar = ("Pemilik", "Admin/Operator")
+    with koneksi() as db:
+        for nama in peran_dasar:
+            db.execute(
+                "INSERT OR IGNORE INTO peran (nama_peran) VALUES (?)",
+                (nama,),
+            )
+
+
+def ambil_peran_by_nama(nama_peran):
+    with koneksi() as db:
+        return db.execute(
+            "SELECT id_peran, nama_peran FROM peran WHERE nama_peran = ?",
+            (nama_peran,),
+        ).fetchone()
+
+
+def ambil_pengguna_by_username(username_email):
+    with koneksi() as db:
+        return db.execute(
+            """
+            SELECT p.id_pengguna, p.username_email, p.password_hash, p.id_peran, r.nama_peran
+            FROM pengguna AS p
+            JOIN peran AS r ON r.id_peran = p.id_peran
+            WHERE p.username_email = ?
+            """,
+            (username_email,),
+        ).fetchone()
+
+
+def tambah_pengguna(username_email, password_hash, id_peran):
+    with koneksi() as db:
+        hasil = db.execute(
+            "INSERT INTO pengguna (username_email, password_hash, id_peran) VALUES (?, ?, ?)",
+            (username_email, password_hash, id_peran),
+        )
+        return hasil.lastrowid
 
 
 def semua_layanan():

@@ -9,15 +9,33 @@
 <body>
   <header>
     <span class="merek">SISTEM INFORMASI LAUNDRY KOIN</span>
-    <span>Pengguna | Logout</span>
+    <span>
+      {% if g.pengguna %}
+        {{ g.pengguna.username_email }} ({{ g.pengguna.nama_peran }})
+        <form method="post" action="{{ url_for('auth.logout') }}" style="display:inline">
+          <button type="submit" class="tombol-kecil">Keluar</button>
+        </form>
+      {% else %}
+        Tamu
+      {% endif %}
+    </span>
   </header>
   <nav>
+    {% if g.pengguna %}
+      {% if g.pengguna.nama_peran == 'Pemilik' %}
+        <a href="{{ url_for('transaksi.daftar') }}">Transaksi</a>
+        <a href="{{ url_for('layanan.daftar') }}">Layanan</a>
+      {% elif g.pengguna.nama_peran == 'Admin/Operator' %}
+        <a href="{{ url_for('transaksi.daftar') }}">Transaksi</a>
+        <a href="{{ url_for('pelanggan.daftar') }}">Pelanggan</a>
+        <a href="{{ url_for('layanan.daftar') }}">Layanan</a>
+      {% endif %}
+    {% else %}
+      <a href="{{ url_for('auth.login') }}">Login</a>
+    {% endif %}
     <span class="nonaktif" title="Belum tersedia">Dashboard</span>
-    <a href="{{ url_for('transaksi.daftar') }}">Transaksi</a>
-    <a href="{{ url_for('layanan.daftar') }}">Layanan</a>
-    <a href="{{ url_for('pelanggan.daftar') }}">Pelanggan</a>
-    <span class="nonaktif" title="Belum tersedia">Status Mesin</span>
     <span class="nonaktif" title="Belum tersedia">Laporan</span>
+    <span class="nonaktif" title="Belum tersedia">Status Mesin</span>
   </nav>
   <main>
     {% for kategori, pesan in get_flashed_messages(with_categories=true) %}

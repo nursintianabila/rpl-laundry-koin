@@ -1,5 +1,7 @@
 from flask import Blueprint, redirect, render_template, url_for
 
+from services import layanan_service
+
 bp = Blueprint("layanan", __name__)
 
 
@@ -12,4 +14,5 @@ def beranda():
 @bp.route("/layanan")
 def daftar():
     """Menampilkan halaman daftar layanan."""
-    return render_template("layanan/daftar.html")
+    daftar_layanan = layanan_service.daftar_layanan()
+    return render_template("layanan/daftar.html", daftar_layanan=daftar_layanan)

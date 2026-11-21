@@ -4,5 +4,33 @@
 
 {% block isi %}
 <h1>LAYANAN DAN HARGA</h1>
-<p>Halaman daftar layanan belum berisi data.</p>
+
+<p>
+  <span class="tombol nonaktif" title="Tersedia pada tahap berikutnya">+ Tambah Layanan</span>
+</p>
+
+{% if daftar_layanan %}
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nama Layanan</th>
+      <th>Harga</th>
+      <th>Aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for layanan in daftar_layanan %}
+    <tr>
+      <td>{{ layanan.id_layanan }}</td>
+      <td>{{ layanan.nama_layanan }}</td>
+      <td>{{ layanan.harga | rupiah }}</td>
+      <td><span class="teks-muted" title="Tersedia pada tahap berikutnya">—</span></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="teks-muted">Belum ada data layanan.</p>
+{% endif %}
 {% endblock %}

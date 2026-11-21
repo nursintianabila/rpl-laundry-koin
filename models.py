@@ -30,3 +30,15 @@ def init_db():
     if not DB_PATH.exists():
         with koneksi() as db:
             db.executescript(SCHEMA.read_text(encoding="utf-8"))
+
+
+def semua_layanan():
+    """Mengambil seluruh data layanan untuk halaman daftar."""
+    with koneksi() as db:
+        return db.execute(
+            """
+            SELECT id_layanan, nama_layanan, harga
+            FROM layanan
+            ORDER BY id_layanan
+            """
+        ).fetchall()

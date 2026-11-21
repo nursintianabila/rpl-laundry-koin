@@ -11,7 +11,7 @@ def buat_aplikasi():
     """Membuat dan mengatur aplikasi Flask."""
     app = Flask(__name__)
 
-    env = os.environ.get("FLASK_ENV", "development")
+    env = os.environ.get("APP_ENV") or os.environ.get("FLASK_ENV", "development")
     secret = os.environ.get("SECRET_KEY")
     if env == "production" and not secret:
         raise RuntimeError("SECRET_KEY wajib diisi pada mode produksi.")
@@ -19,7 +19,12 @@ def buat_aplikasi():
 
     app.config["SESSION_COOKIE_HTTPONLY"] = True
     app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
-    app.config["SESSION_COOKIE_SECURE"] = (env == "production")
+    app.config["SESSION_COOKIE_SECURE"] = (
+        os.environ.get("COOKIE_SECURE", "1" if env == "production" else "0") == "1"
+    )
+
+    from versi import VERSI
+    app.jinja_env.globals["versi"] = VERSI
 
     models.init_db()
     app.register_blueprint(auth_routes.bp)

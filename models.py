@@ -1,10 +1,11 @@
+import os
 import sqlite3
 from contextlib import contextmanager
 from pathlib import Path
 
 # Lokasi berkas proyek, database, dan skema.
 ROOT = Path(__file__).resolve().parent
-DB_PATH = ROOT / "instance" / "laundry_koin.db"
+DB_PATH = Path(os.environ.get("TOKO_DB") or (ROOT / "instance" / "laundry_koin.db"))
 SCHEMA = ROOT / "docs" / "desain" / "schema.sql"
 
 

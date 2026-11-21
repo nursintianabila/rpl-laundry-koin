@@ -42,3 +42,39 @@ def semua_layanan():
             ORDER BY id_layanan
             """
         ).fetchall()
+
+
+def ambil_layanan(id_layanan):
+    """Mengambil satu layanan berdasarkan ID, atau None bila tidak ada."""
+    with koneksi() as db:
+        return db.execute(
+            """
+            SELECT id_layanan, nama_layanan, harga
+            FROM layanan
+            WHERE id_layanan = ?
+            """,
+            (id_layanan,),
+        ).fetchone()
+
+
+def cari_layanan_by_nama(nama_layanan):
+    """Mencari layanan berdasarkan nama tanpa membedakan huruf besar/kecil."""
+    with koneksi() as db:
+        return db.execute(
+            """
+            SELECT id_layanan, nama_layanan
+            FROM layanan
+            WHERE lower(nama_layanan) = lower(?)
+            """,
+            (nama_layanan,),
+        ).fetchone()
+
+
+def tambah_layanan(nama_layanan, harga):
+    """Menyimpan layanan baru dan mengembalikan ID yang dibuat."""
+    with koneksi() as db:
+        hasil = db.execute(
+            "INSERT INTO layanan (nama_layanan, harga) VALUES (?, ?)",
+            (nama_layanan, harga),
+        )
+        return hasil.lastrowid

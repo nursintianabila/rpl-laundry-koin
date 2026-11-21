@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block judul %}{{ judul }}{% endblock %}
+
+{% block isi %}
+<h1>{{ judul | upper }}</h1>
+
+{% if galat %}
+<div class="galat">
+  <p>Periksa kembali isian berikut:</p>
+  <ul>
+    {% for pesan in galat %}
+    <li>{{ pesan }}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+<form method="post" action="{{ aksi }}">
+  <p>
+    <label for="nama_layanan">Nama Layanan</label><br>
+    <input type="text" id="nama_layanan" name="nama_layanan" maxlength="100"
+           value="{{ isian.nama_layanan }}" required>
+  </p>
+  <p>
+    <label for="harga">Harga (Rp)</label><br>
+    <input type="number" id="harga" name="harga" min="0" step="1"
+           value="{{ isian.harga }}" required>
+  </p>
+  <p>
+    <button type="submit" class="tombol">Simpan</button>
+    <a href="{{ url_for('layanan.daftar') }}">Batal</a>
+  </p>
+</form>
+{% endblock %}

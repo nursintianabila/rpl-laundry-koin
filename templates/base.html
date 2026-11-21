@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block judul %}Sistem Informasi Laundry Koin{% endblock %}</title>
+  <style>
+    body { font-family: Arial, Helvetica, sans-serif; margin: 0; color: #222; }
+    header { background: #1f4e79; color: #fff; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
+    header .merek { font-weight: bold; }
+    nav { background: #e8eef5; padding: 8px 20px; }
+    nav a, nav span { margin-right: 16px; color: #1f4e79; text-decoration: none; }
+    nav a.aktif { font-weight: bold; text-decoration: underline; }
+    nav span.nonaktif { color: #8a8a8a; }
+    main { padding: 20px; max-width: 960px; }
+    table { border-collapse: collapse; width: 100%; margin-top: 12px; }
+    th, td { border: 1px solid #c9d3de; padding: 8px; text-align: left; }
+    th { background: #f2f6fa; }
+    .pesan { background: #e6f4ea; border: 1px solid #9ed0a9; padding: 8px 12px; }
+    .galat { background: #fdecea; border: 1px solid #e6a19a; padding: 8px 12px; }
+    .tombol { display: inline-block; background: #1f4e79; color: #fff; padding: 8px 14px; text-decoration: none; border: 0; cursor: pointer; }
+    .teks-muted { color: #8a8a8a; }
+    .aksi form { display: inline; }
+  </style>
+</head>
+<body>
+  <header>
+    <span class="merek">SISTEM INFORMASI LAUNDRY KOIN</span>
+    <span>Pengguna | Logout</span>
+  </header>
+  <nav>
+    <span class="nonaktif" title="Belum tersedia">Dashboard</span>
+    <span class="nonaktif" title="Belum tersedia">Transaksi</span>
+    <a href="{{ url_for('layanan.daftar') }}">Layanan</a>
+    <span class="nonaktif" title="Belum tersedia">Laporan</span>
+  </nav>
+  <main>
+    {% for pesan in get_flashed_messages() %}
+      <p class="pesan">{{ pesan }}</p>
+    {% endfor %}
+    {% block isi %}{% endblock %}
+  </main>
+</body>
+</html>

@@ -56,6 +56,11 @@ def semua_pelanggan():
         ).fetchall()
 
 
+def _escape_like(teks):
+    """Netralkan % dan _ agar dicari sebagai huruf biasa."""
+    return teks.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")
+
+
 def semua_transaksi():
     """Mengambil daftar transaksi dengan JOIN ke pelanggan dan layanan."""
     return cari_transaksi()
@@ -63,9 +68,6 @@ def semua_transaksi():
 
 def cari_transaksi(kata="", id_layanan=None):
     """Mencari dan menyaring transaksi; kata dicari pada nama pelanggan/layanan."""
-    def _escape_like(teks):
-        return teks.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")
-
     sql = """
         SELECT t.id_transaksi,
                t.id_pelanggan,

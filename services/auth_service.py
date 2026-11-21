@@ -1,6 +1,9 @@
 """Logika autentikasi dan otorisasi dasar."""
 
 import functools
+import secrets
+import time
+from datetime import datetime
 
 from flask import abort, g, redirect, request, session, url_for
 
@@ -137,3 +140,69 @@ def alamat_next_aman(next_url):
     if not next_url.startswith("/") or next_url.startswith("//"):
         return None
     return next_url
+
+
+def csrf_token():
+    """Menghasilkan atau mengambil token CSRF per sesi."""
+    token = session.get("csrf_token")
+    if not token:
+        token = secrets.token_hex(32)
+        session["csrf_token"] = token
+    return token
+
+
+def verifikasi_csrf(token):
+    """Memverifikasi token CSRF dengan perbandingan yang aman terhadap timing."""
+    expected = session.get("csrf_token")
+    if not expected or not token:
+        return False
+    return secrets.compare_digest(expected, token)
+
+
+_BATAS_PERCOBAAN = 5
+_JENDELA_PERCOBAAN = 300
+_LOCK_DURASI = 300
+_PERCOBAAN = {}
+
+
+def _kunci_percobaan(ip, username):
+    return (ip or "", (username or "").strip().lower())
+
+
+def _catat_kejadian(pesan):
+    print(f"[AUTH {datetime.now().isoformat()}] {pesan}", flush=True)
+
+
+def login_terkunci(ip, username):
+    """Mengembalikan True bila login dikunci karena terlalu banyak kegagalan."""
+    data = _PERCOBAAN.get(_kunci_percobaan(ip, username))
+    if not data:
+        return False
+    now = time.time()
+    if data.get("lock_until", 0) > now:
+        return True
+    if now - data.get("first", now) > _JENDELA_PERCOBAAN:
+        del _PERCOBAAN[_kunci_percobaan(ip, username)]
+        return False
+    return False
+
+
+def catat_kegagalan_login(ip, username):
+    """Mencatat kegagalan login dan mengunci bila melebihi batas."""
+    kunci = _kunci_percobaan(ip, username)
+    now = time.time()
+    data = _PERCOBAAN.get(kunci)
+    if not data or now - data.get("first", now) > _JENDELA_PERCOBAAN:
+        data = {"count": 0, "first": now, "lock_until": 0}
+    data["count"] += 1
+    if data["count"] >= _BATAS_PERCOBAAN:
+        data["lock_until"] = now + _LOCK_DURASI
+        _catat_kejadian(f"login terkunci: ip={ip} username={username}")
+    else:
+        _catat_kejadian(f"login gagal: ip={ip} username={username} percobaan={data['count']}")
+    _PERCOBAAN[kunci] = data
+
+
+def reset_percobaan_login(ip, username):
+    """Menghapus pencatatan percobaan setelah login berhasil."""
+    _PERCOBAAN.pop(_kunci_percobaan(ip, username), None)

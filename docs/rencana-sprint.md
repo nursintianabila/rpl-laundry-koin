@@ -69,3 +69,15 @@ Relasi, pencarian, dan penyaringan diprioritaskan: transaksi yang menghubungkan 
 - Proyek dikerjakan secara individu atas persetujuan dosen, meskipun jobsheet menyebut kerja kelompok.
 - Perubahan kebutuhan harus ditinjau terlebih dahulu dan disesuaikan dengan PRD.
 - Jurnal Vibe Coding diperbarui setiap siklus pengembangan.
+
+## Sprint 3 (Minggu 13-14) - Pengujian, UAT, dan Rilis v1.0
+
+- Pengujian: minimal 20 test case, minimal 8 otomatis (uji_cepat.py + unittest).
+- UAT dengan klien (laundry koin) dan perbaikan berdasarkan umpan balik.
+- Rilis v1.0 pada main setelah PR digabung.
+- Temuan yang ditunda (cookie Secure, pembulatan total biaya, pencarian/paginasi) ditindaklanjuti.
+
+## Checkpoint Minggu 12
+
+- Prototipe 5 menit: login, dua peran, dan fitur inti (layanan, pelanggan, transaksi).
+- Fitur tertunda: dashboard, laporan, status mesin, autentikasi penuh, dan integrasi modul.

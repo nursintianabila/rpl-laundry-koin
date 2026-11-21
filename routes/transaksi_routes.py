@@ -2,12 +2,13 @@ from datetime import date
 
 from flask import Blueprint, abort, flash, redirect, render_template, request, url_for
 
-from services import transaksi_service
+from services import auth_service, transaksi_service
 
 bp = Blueprint("transaksi", __name__)
 
 
 @bp.route("/transaksi")
+@auth_service.peran_diperlukan("Pemilik", "Admin/Operator")
 def daftar():
     """Menampilkan halaman daftar transaksi dengan pencarian dan penyaringan."""
     kata = request.args.get("q", "").strip()
@@ -28,6 +29,7 @@ def daftar():
 
 
 @bp.route("/transaksi/tambah", methods=["GET", "POST"])
+@auth_service.peran_diperlukan("Admin/Operator")
 def tambah():
     """Menampilkan dan memproses form tambah transaksi."""
     isian = {
@@ -71,6 +73,7 @@ def tambah():
 
 
 @bp.route("/transaksi/<int:id_transaksi>/hapus", methods=["POST"])
+@auth_service.peran_diperlukan("Admin/Operator")
 def hapus(id_transaksi):
     """Menghapus transaksi setelah konfirmasi melalui POST."""
     if transaksi_service.ambil_transaksi(id_transaksi) is None:

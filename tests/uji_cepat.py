@@ -23,10 +23,18 @@ auth_service.buat_pengguna("pemilik@example.com", "pemilik123", "Pemilik")
 auth_service.buat_pengguna("admin@example.com", "admin123", "Admin/Operator")
 
 c = aplikasi.app.test_client()
-c.post("/login", data={"username_email": "admin@example.com", "password": "admin123"})
+with c.session_transaction() as sess:
+    sess["csrf_token"] = "test-token"
+
+c.post("/login", data={"username_email": "admin@example.com", "password": "admin123", "csrf_token": "test-token"})
+# login_pengguna memanggil session.clear(), sehingga token CSRF dibuat ulang.
+c.get("/transaksi/tambah")
+with c.session_transaction() as sess:
+    CSRF = sess.get("csrf_token", "test-token")
 
 
 def kirim(url, **data):
+    data.setdefault("csrf_token", CSRF)
     return c.post(url, data=data, follow_redirects=True)
 
 
@@ -74,37 +82,62 @@ ada("masih dipakai pada transaksi", r)
 r = kirim(f"/layanan/{id_lay}/hapus")
 ada("masih dipakai pada transaksi", r)
 
-
 # --- autentikasi dan otorisasi (Jobsheet 11) ---
 c_tamu = aplikasi.app.test_client()
 r = c_tamu.get("/layanan")
 assert r.status_code == 302 and "/login" in r.headers.get("Location", ""), "tamu harus dialihkan ke login"
 
-r = c_tamu.post("/login", data={"username_email": "admin@example.com", "password": "salah"}, follow_redirects=True)
+r = c_tamu.post("/login", data={"username_email": "admin@example.com", "password": "salah", "csrf_token": "x"}, follow_redirects=True)
+# tanpa token valid, server menolak 400; set token dulu
+with c_tamu.session_transaction() as sess:
+    sess["csrf_token"] = "tamu-token"
+r = c_tamu.post("/login", data={"username_email": "admin@example.com", "password": "salah", "csrf_token": "tamu-token"}, follow_redirects=True)
 assert "Nama pengguna atau kata sandi salah." in r.text
-r = c_tamu.post("/login", data={"username_email": "tidakada@example.com", "password": "x"}, follow_redirects=True)
+r = c_tamu.post("/login", data={"username_email": "tidakada@example.com", "password": "x", "csrf_token": "tamu-token"}, follow_redirects=True)
 assert "Nama pengguna atau kata sandi salah." in r.text
 
-r = c_tamu.post("/login?next=https://jahat.example", data={"username_email": "admin@example.com", "password": "admin123"})
-assert r.headers.get("Location", "").endswith("/transaksi") or r.headers.get("Location", "").endswith("/layanan"), "next luar situs harus diabaikan"
+r = c_tamu.post("/login?next=https://jahat.example", data={"username_email": "admin@example.com", "password": "admin123", "csrf_token": "tamu-token"})
+assert not (r.headers.get("Location", "").startswith("https://")), "next luar situs harus diabaikan"
 
-# kata sandi tersimpan sebagai hash
 with models.koneksi() as db:
     baris = db.execute("SELECT password_hash FROM pengguna WHERE username_email = ?", ("admin@example.com",)).fetchone()
 assert baris["password_hash"].startswith(("scrypt:", "pbkdf2:")), "kata sandi harus tersimpan sebagai hash"
 
-# peran terbatas (pemilik) mendapat 403 pada halaman dan POST terlarang
 c_pemilik = aplikasi.app.test_client()
-c_pemilik.post("/login", data={"username_email": "pemilik@example.com", "password": "pemilik123"})
+with c_pemilik.session_transaction() as sess:
+    sess["csrf_token"] = "pem-token"
+c_pemilik.post("/login", data={"username_email": "pemilik@example.com", "password": "pemilik123", "csrf_token": "pem-token"})
 r = c_pemilik.get("/pelanggan")
 assert r.status_code == 403, "pemilik tidak boleh membuka data pelanggan"
-r = c_pemilik.post("/pelanggan/1/hapus")
+with c_pemilik.session_transaction() as sess:
+    sess["csrf_token"] = "pem-token"
+r = c_pemilik.post("/pelanggan/1/hapus", data={"csrf_token": "pem-token"})
 assert r.status_code == 403, "pemilik tidak boleh menghapus pelanggan lewat POST"
 
-# peran penuh (admin) berhasil
 c_admin = aplikasi.app.test_client()
-c_admin.post("/login", data={"username_email": "admin@example.com", "password": "admin123"})
+with c_admin.session_transaction() as sess:
+    sess["csrf_token"] = "adm-token"
+c_admin.post("/login", data={"username_email": "admin@example.com", "password": "admin123", "csrf_token": "adm-token"})
 r = c_admin.get("/pelanggan")
 assert r.status_code == 200, "admin boleh membuka data pelanggan"
+
+# uji CSRF: POST tanpa token ditolak 400
+r = c_admin.post("/pelanggan/1/hapus", data={})
+assert r.status_code == 400, "POST tanpa token CSRF harus ditolak"
+
+# --- batas percobaan login (Jobsheet 12) ---
+c_bp = aplikasi.app.test_client()
+with c_bp.session_transaction() as sess:
+    sess["csrf_token"] = "bp-token"
+for _ in range(5):
+    c_bp.post("/login", data={"username_email": "admin@example.com", "password": "salah", "csrf_token": "bp-token"})
+r = c_bp.post("/login", data={"username_email": "admin@example.com", "password": "admin123", "csrf_token": "bp-token"}, follow_redirects=True)
+assert r.status_code == 429, "percobaan ke-6 harus ditolak (429)"
+
+# header keamanan
+r = c.get("/login")
+assert r.headers.get("X-Content-Type-Options") == "nosniff"
+assert r.headers.get("X-Frame-Options") == "DENY"
+assert r.headers.get("Referrer-Policy") == "strict-origin-when-cross-origin"
 
 print("SEMUA UJI LULUS")

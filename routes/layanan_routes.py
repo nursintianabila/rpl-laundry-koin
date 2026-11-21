@@ -8,7 +8,7 @@ from flask import (
     url_for,
 )
 
-from services import layanan_service
+from services import auth_service, layanan_service
 
 bp = Blueprint("layanan", __name__)
 
@@ -20,6 +20,7 @@ def beranda():
 
 
 @bp.route("/layanan")
+@auth_service.peran_diperlukan("Pemilik", "Admin/Operator")
 def daftar():
     """Menampilkan halaman daftar layanan."""
     daftar_layanan = layanan_service.daftar_layanan()
@@ -27,6 +28,7 @@ def daftar():
 
 
 @bp.route("/layanan/tambah", methods=["GET", "POST"])
+@auth_service.peran_diperlukan("Pemilik")
 def tambah():
     """Menampilkan dan memproses form tambah layanan."""
     isian = {"nama_layanan": "", "harga": ""}
@@ -53,6 +55,7 @@ def tambah():
 
 
 @bp.route("/layanan/<int:id_layanan>/ubah", methods=["GET", "POST"])
+@auth_service.peran_diperlukan("Pemilik")
 def ubah(id_layanan):
     """Menampilkan dan memproses form ubah layanan."""
     layanan = layanan_service.ambil_layanan(id_layanan)
@@ -90,6 +93,7 @@ def ubah(id_layanan):
 
 
 @bp.route("/layanan/<int:id_layanan>/hapus", methods=["POST"])
+@auth_service.peran_diperlukan("Admin/Operator")
 def hapus(id_layanan):
     """Menghapus layanan setelah konfirmasi melalui POST."""
     if layanan_service.ambil_layanan(id_layanan) is None:

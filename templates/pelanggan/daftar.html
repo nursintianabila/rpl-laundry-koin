@@ -28,6 +28,7 @@
         <form method="post"
               action="{{ url_for('pelanggan.hapus', id_pelanggan=pelanggan.id_pelanggan) }}"
               onsubmit="return confirm('Yakin ingin menghapus pelanggan ini?');">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
           <button type="submit" class="tombol-kecil bahaya">Hapus</button>
         </form>
       </td>

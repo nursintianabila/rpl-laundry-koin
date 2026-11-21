@@ -27,6 +27,11 @@
       <td>{{ layanan.harga | rupiah }}</td>
       <td class="aksi">
         <a href="{{ url_for('layanan.ubah', id_layanan=layanan.id_layanan) }}">Ubah</a>
+        <form method="post"
+              action="{{ url_for('layanan.hapus', id_layanan=layanan.id_layanan) }}"
+              onsubmit="return confirm('Yakin ingin menghapus layanan ini?');">
+          <button type="submit" class="tombol-kecil bahaya">Hapus</button>
+        </form>
       </td>
     </tr>
     {% endfor %}

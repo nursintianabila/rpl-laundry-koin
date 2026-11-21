@@ -178,6 +178,65 @@ class UjiLayanan(unittest.TestCase):
         )
         self.assertEqual(hasil.status_code, 404)
 
+    def test_hapus_layanan_berhasil(self):
+        id_layanan = self.tambah_contoh()
+
+        hasil = self.klien.post(
+            f"/layanan/{id_layanan}/hapus",
+            follow_redirects=True,
+        )
+        teks = hasil.data.decode("utf-8")
+
+        self.assertEqual(hasil.status_code, 200)
+        self.assertIn("Layanan berhasil dihapus.", teks)
+        self.assertIsNone(models.ambil_layanan(id_layanan))
+
+    def test_hapus_lewat_get_tidak_mengubah_data(self):
+        id_layanan = self.tambah_contoh()
+
+        hasil = self.klien.get(f"/layanan/{id_layanan}/hapus")
+
+        self.assertEqual(hasil.status_code, 405)
+        self.assertIsNotNone(models.ambil_layanan(id_layanan))
+
+    def test_hapus_id_tidak_ditemukan_menghasilkan_404(self):
+        hasil = self.klien.post("/layanan/999/hapus")
+        self.assertEqual(hasil.status_code, 404)
+
+    def test_hapus_layanan_yang_dipakai_transaksi_ditolak(self):
+        id_layanan = self.tambah_contoh()
+
+        with models.koneksi() as db:
+            hasil_pelanggan = db.execute(
+                "INSERT INTO pelanggan (nama_pelanggan) VALUES (?)",
+                ("Pelanggan Uji",),
+            )
+            db.execute(
+                """
+                INSERT INTO transaksi
+                (id_pelanggan, id_layanan, tanggal, berat, total_biaya)
+                VALUES (?, ?, ?, ?, ?)
+                """,
+                (
+                    hasil_pelanggan.lastrowid,
+                    id_layanan,
+                    "2026-11-21",
+                    2.5,
+                    17500,
+                ),
+            )
+
+        hasil = self.klien.post(
+            f"/layanan/{id_layanan}/hapus",
+            follow_redirects=True,
+        )
+        teks = hasil.data.decode("utf-8")
+
+        self.assertEqual(hasil.status_code, 200)
+        self.assertIn("masih dipakai pada transaksi", teks)
+        self.assertIn('class="galat"', teks)
+        self.assertIsNotNone(models.ambil_layanan(id_layanan))
+
 
 if __name__ == "__main__":
     unittest.main()

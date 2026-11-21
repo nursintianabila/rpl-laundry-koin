@@ -87,3 +87,19 @@ def ubah(id_layanan):
         isian=isian,
         galat=galat,
     )
+
+
+@bp.route("/layanan/<int:id_layanan>/hapus", methods=["POST"])
+def hapus(id_layanan):
+    """Menghapus layanan setelah konfirmasi melalui POST."""
+    if layanan_service.ambil_layanan(id_layanan) is None:
+        abort(404)
+
+    try:
+        layanan_service.hapus_layanan(id_layanan)
+    except layanan_service.LayananDipakaiError as kesalahan:
+        flash(str(kesalahan), "galat")
+    else:
+        flash("Layanan berhasil dihapus.", "sukses")
+
+    return redirect(url_for("layanan.daftar"))

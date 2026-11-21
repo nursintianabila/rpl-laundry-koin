@@ -44,6 +44,61 @@ def semua_layanan():
         ).fetchall()
 
 
+def semua_pelanggan():
+    """Mengambil seluruh data pelanggan untuk halaman daftar."""
+    with koneksi() as db:
+        return db.execute(
+            """
+            SELECT id_pelanggan, nama_pelanggan
+            FROM pelanggan
+            ORDER BY id_pelanggan
+            """
+        ).fetchall()
+
+
+def ambil_pelanggan(id_pelanggan):
+    """Mengambil satu pelanggan berdasarkan ID, atau None bila tidak ada."""
+    with koneksi() as db:
+        return db.execute(
+            """
+            SELECT id_pelanggan, nama_pelanggan
+            FROM pelanggan
+            WHERE id_pelanggan = ?
+            """,
+            (id_pelanggan,),
+        ).fetchone()
+
+
+def tambah_pelanggan(nama_pelanggan):
+    """Menyimpan pelanggan baru dan mengembalikan ID yang dibuat."""
+    with koneksi() as db:
+        hasil = db.execute(
+            "INSERT INTO pelanggan (nama_pelanggan) VALUES (?)",
+            (nama_pelanggan,),
+        )
+        return hasil.lastrowid
+
+
+def ubah_pelanggan(id_pelanggan, nama_pelanggan):
+    """Mengubah nama pelanggan; mengembalikan jumlah baris terubah."""
+    with koneksi() as db:
+        hasil = db.execute(
+            "UPDATE pelanggan SET nama_pelanggan = ? WHERE id_pelanggan = ?",
+            (nama_pelanggan, id_pelanggan),
+        )
+        return hasil.rowcount
+
+
+def hapus_pelanggan(id_pelanggan):
+    """Menghapus pelanggan; kegagalan kunci asing diteruskan ke pemanggil."""
+    with koneksi() as db:
+        hasil = db.execute(
+            "DELETE FROM pelanggan WHERE id_pelanggan = ?",
+            (id_pelanggan,),
+        )
+        return hasil.rowcount
+
+
 def ambil_layanan(id_layanan):
     """Mengambil satu layanan berdasarkan ID, atau None bila tidak ada."""
     with koneksi() as db:

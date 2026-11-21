@@ -20,6 +20,7 @@
 {% endfor %}
 
 <form method="post" action="{{ url_for('auth.login', next=next) }}">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
   <p>
     <label for="username_email">Nama pengguna (email)</label><br>
     <input type="email" id="username_email" name="username_email" required>

@@ -17,6 +17,7 @@
 {% endif %}
 
 <form method="post" action="{{ aksi }}">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
   <p>
     <label for="nama_layanan">Nama Layanan</label><br>
     <input type="text" id="nama_layanan" name="nama_layanan" maxlength="100"

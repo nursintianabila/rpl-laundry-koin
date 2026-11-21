@@ -11,10 +11,15 @@ def login():
     if request.method == "POST":
         username = request.form.get("username_email", "")
         kata_sandi = request.form.get("password", "")
+        ip = request.remote_addr or ""
+        if auth_service.login_terkunci(ip, username):
+            abort(429)
         pengguna = auth_service.autentikasi(username, kata_sandi)
         if pengguna is None:
+            auth_service.catat_kegagalan_login(ip, username)
             flash("Nama pengguna atau kata sandi salah.", "galat")
         else:
+            auth_service.reset_percobaan_login(ip, username)
             auth_service.login_pengguna(pengguna)
             next_url = auth_service.alamat_next_aman(request.args.get("next"))
             if next_url:

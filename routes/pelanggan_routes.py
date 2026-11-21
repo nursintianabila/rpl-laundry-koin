@@ -1,11 +1,12 @@
 from flask import Blueprint, abort, flash, redirect, render_template, request, url_for
 
-from services import pelanggan_service
+from services import auth_service, pelanggan_service
 
 bp = Blueprint("pelanggan", __name__)
 
 
 @bp.route("/pelanggan")
+@auth_service.peran_diperlukan("Admin/Operator")
 def daftar():
     """Menampilkan halaman daftar pelanggan."""
     daftar_pelanggan = pelanggan_service.daftar_pelanggan()
@@ -13,6 +14,7 @@ def daftar():
 
 
 @bp.route("/pelanggan/tambah", methods=["GET", "POST"])
+@auth_service.peran_diperlukan("Admin/Operator")
 def tambah():
     """Menampilkan dan memproses form tambah pelanggan."""
     isian = {"nama_pelanggan": ""}
@@ -38,6 +40,7 @@ def tambah():
 
 
 @bp.route("/pelanggan/<int:id_pelanggan>/ubah", methods=["GET", "POST"])
+@auth_service.peran_diperlukan("Admin/Operator")
 def ubah(id_pelanggan):
     """Menampilkan dan memproses form ubah pelanggan."""
     pelanggan = pelanggan_service.ambil_pelanggan(id_pelanggan)
@@ -67,6 +70,7 @@ def ubah(id_pelanggan):
 
 
 @bp.route("/pelanggan/<int:id_pelanggan>/hapus", methods=["POST"])
+@auth_service.peran_diperlukan("Admin/Operator")
 def hapus(id_pelanggan):
     """Menghapus pelanggan setelah konfirmasi melalui POST."""
     if pelanggan_service.ambil_pelanggan(id_pelanggan) is None:

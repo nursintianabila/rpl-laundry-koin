@@ -79,7 +79,14 @@ assert models.ambil_transaksi(transaksi_id) is None
 transaksi_id = models.tambah_transaksi(id_pel, id_lay, "2026-11-21", 1.0, 7000)
 r = kirim(f"/pelanggan/{id_pel}/hapus")
 ada("masih dipakai pada transaksi", r)
-r = kirim(f"/layanan/{id_lay}/hapus")
+# hapus layanan yang dipakai transaksi hanya dapat dilakukan Pemilik
+c_pemilik_hapus = aplikasi.app.test_client()
+with c_pemilik_hapus.session_transaction() as sess:
+    sess["csrf_token"] = "pem-hapus-token"
+c_pemilik_hapus.post("/login", data={"username_email": "pemilik@example.com", "password": "pemilik123", "csrf_token": "pem-hapus-token"})
+with c_pemilik_hapus.session_transaction() as sess:
+    sess["csrf_token"] = "pem-hapus-token"
+r = c_pemilik_hapus.post(f"/layanan/{id_lay}/hapus", data={"csrf_token": "pem-hapus-token"}, follow_redirects=True)
 ada("masih dipakai pada transaksi", r)
 
 # --- autentikasi dan otorisasi (Jobsheet 11) ---

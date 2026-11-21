@@ -12,7 +12,7 @@
 | Daftar layanan | login | ✓ | ✓ |
 | Tambah layanan | login | ✓ | ✗ |
 | Ubah layanan | login | ✓ | ✗ |
-| Hapus layanan | login | ✗ | ✓ (hanya jika tidak dipakai transaksi) |
+| Hapus layanan | login | ✓ | ✗ |
 | Daftar pelanggan | login | ✗ | ✓ |
 | Tambah pelanggan | login | ✗ | ✓ |
 | Ubah pelanggan | login | ✗ | ✓ |

@@ -93,7 +93,7 @@ def ubah(id_layanan):
 
 
 @bp.route("/layanan/<int:id_layanan>/hapus", methods=["POST"])
-@auth_service.peran_diperlukan("Admin/Operator")
+@auth_service.peran_diperlukan("Pemilik")
 def hapus(id_layanan):
     """Menghapus layanan setelah konfirmasi melalui POST."""
     if layanan_service.ambil_layanan(id_layanan) is None:

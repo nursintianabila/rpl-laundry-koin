@@ -203,6 +203,33 @@ class UjiLayanan(unittest.TestCase):
         hasil = self.klien.post("/layanan/999/hapus")
         self.assertEqual(hasil.status_code, 404)
 
+    def test_nama_berisi_perintah_sql_tersimpan_sebagai_teks(self):
+        nama_uji = "Robert'); DROP TABLE layanan;--"
+        hasil = self.klien.post(
+            "/layanan/tambah",
+            data={"nama_layanan": nama_uji, "harga": "5000"},
+            follow_redirects=True,
+        )
+        teks = hasil.data.decode("utf-8")
+
+        self.assertEqual(hasil.status_code, 200)
+        self.assertIn("Layanan berhasil ditambahkan.", teks)
+        data = models.semua_layanan()
+        self.assertEqual(len(data), 1)
+        self.assertEqual(data[0]["nama_layanan"], nama_uji)
+
+    def test_nama_berisi_html_ditampilkan_ter_escape(self):
+        hasil = self.klien.post(
+            "/layanan/tambah",
+            data={"nama_layanan": "<b>tes</b>", "harga": "5000"},
+            follow_redirects=True,
+        )
+        teks = hasil.data.decode("utf-8")
+
+        self.assertEqual(hasil.status_code, 200)
+        self.assertIn("&lt;b&gt;tes&lt;/b&gt;", teks)
+        self.assertNotIn("<b>tes</b>", teks)
+
     def test_hapus_layanan_yang_dipakai_transaksi_ditolak(self):
         id_layanan = self.tambah_contoh()
 

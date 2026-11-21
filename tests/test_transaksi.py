@@ -145,6 +145,33 @@ class UjiTransaksi(unittest.TestCase):
         hasil = self.klien.post("/transaksi/999/hapus")
         self.assertEqual(hasil.status_code, 404)
 
+    def test_pencarian_menampilkan_yang_cocok(self):
+        models.tambah_transaksi(1, 1, "2026-11-21", 1.0, 7000)
+
+        hasil = self.klien.get("/transaksi?q=Pelanggan")
+        teks = hasil.data.decode("utf-8")
+
+        self.assertEqual(hasil.status_code, 200)
+        self.assertIn("Pelanggan Uji", teks)
+
+    def test_pencarian_tidak_ada_hasil(self):
+        models.tambah_transaksi(1, 1, "2026-11-21", 1.0, 7000)
+
+        hasil = self.klien.get("/transaksi?q=zzzz")
+        teks = hasil.data.decode("utf-8")
+
+        self.assertEqual(hasil.status_code, 200)
+        self.assertIn("Tidak ada transaksi yang cocok.", teks)
+
+    def test_persen_dicari_sebagai_huruf_biasa(self):
+        models.tambah_transaksi(1, 1, "2026-11-21", 1.0, 7000)
+
+        hasil = self.klien.get("/transaksi?q=%25")
+        teks = hasil.data.decode("utf-8")
+
+        self.assertEqual(hasil.status_code, 200)
+        self.assertIn("Tidak ada transaksi yang cocok.", teks)
+
     def test_hapus_pelanggan_yang_dipakai_transaksi_ditolak(self):
         models.tambah_transaksi(1, 1, "2026-11-21", 1.0, 7000)
 

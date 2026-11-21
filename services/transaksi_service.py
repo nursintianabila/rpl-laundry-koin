@@ -15,9 +15,9 @@ class ValidasiTransaksiError(ValueError):
         super().__init__(" ".join(daftar_pesan))
 
 
-def daftar_transaksi():
+def daftar_transaksi(kata="", id_layanan=None):
     """Mengambil daftar transaksi yang akan ditampilkan kepada pengguna."""
-    return models.semua_transaksi()
+    return models.cari_transaksi(kata, id_layanan)
 
 
 def daftar_pelanggan():

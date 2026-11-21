@@ -56,26 +56,45 @@ def semua_pelanggan():
         ).fetchall()
 
 
+def _escape_like(teks):
+    """Netralkan % dan _ agar dicari sebagai huruf biasa."""
+    return teks.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")
+
+
 def semua_transaksi():
     """Mengambil daftar transaksi dengan JOIN ke pelanggan dan layanan."""
+    return cari_transaksi()
+
+
+def cari_transaksi(kata="", id_layanan=None):
+    """Mencari dan menyaring transaksi; kata dicari pada nama pelanggan/layanan."""
+    sql = """
+        SELECT t.id_transaksi,
+               t.id_pelanggan,
+               t.id_layanan,
+               t.tanggal,
+               t.berat,
+               t.total_biaya,
+               p.nama_pelanggan,
+               l.nama_layanan,
+               l.harga AS harga_layanan
+        FROM transaksi AS t
+        JOIN pelanggan AS p ON p.id_pelanggan = t.id_pelanggan
+        JOIN layanan AS l ON l.id_layanan = t.id_layanan
+        WHERE (p.nama_pelanggan LIKE ? ESCAPE '\\'
+               OR l.nama_layanan LIKE ? ESCAPE '\\')
+    """
+    pola = "%" + _escape_like(kata) + "%"
+    param = [pola, pola]
+
+    if id_layanan is not None:
+        sql += " AND t.id_layanan = ?"
+        param.append(id_layanan)
+
+    sql += " ORDER BY t.id_transaksi DESC"
+
     with koneksi() as db:
-        return db.execute(
-            """
-            SELECT t.id_transaksi,
-                   t.id_pelanggan,
-                   t.id_layanan,
-                   t.tanggal,
-                   t.berat,
-                   t.total_biaya,
-                   p.nama_pelanggan,
-                   l.nama_layanan,
-                   l.harga AS harga_layanan
-            FROM transaksi AS t
-            JOIN pelanggan AS p ON p.id_pelanggan = t.id_pelanggan
-            JOIN layanan AS l ON l.id_layanan = t.id_layanan
-            ORDER BY t.id_transaksi DESC
-            """
-        ).fetchall()
+        return db.execute(sql, param).fetchall()
 
 
 def ambil_transaksi(id_transaksi):

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block judul %}Daftar Transaksi{% endblock %}
+
+{% block isi %}
+<h1>DAFTAR TRANSAKSI</h1>
+
+<p>
+  <a class="tombol" href="{{ url_for('transaksi.tambah') }}">+ Tambah Transaksi</a>
+</p>
+
+{% if daftar_transaksi %}
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Pelanggan</th>
+      <th>Layanan</th>
+      <th>Tanggal</th>
+      <th>Berat (kg)</th>
+      <th>Total Biaya</th>
+      <th>Aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for t in daftar_transaksi %}
+    <tr>
+      <td>{{ t.id_transaksi }}</td>
+      <td>{{ t.nama_pelanggan }}</td>
+      <td>{{ t.nama_layanan }}</td>
+      <td>{{ t.tanggal }}</td>
+      <td>{{ t.berat }}</td>
+      <td>{{ t.total_biaya | rupiah }}</td>
+      <td class="aksi">
+        <form method="post"
+              action="{{ url_for('transaksi.hapus', id_transaksi=t.id_transaksi) }}"
+              onsubmit="return confirm('Yakin ingin menghapus transaksi ini?');">
+          <button type="submit" class="tombol-kecil bahaya">Hapus</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="teks-muted">Belum ada transaksi.</p>
+{% endif %}
+{% endblock %}

@@ -9,6 +9,22 @@
   <a class="tombol" href="{{ url_for('transaksi.tambah') }}">+ Tambah Transaksi</a>
 </p>
 
+<form method="get" action="{{ url_for('transaksi.daftar') }}">
+  <p>
+    <input name="q" value="{{ kata }}" placeholder="Cari pelanggan atau layanan">
+    <select name="layanan">
+      <option value="">Semua layanan</option>
+      {% for l in daftar_layanan %}
+      <option value="{{ l.id_layanan }}" {% if id_layanan_terpilih == l.id_layanan %}selected{% endif %}>
+        {{ l.nama_layanan }}
+      </option>
+      {% endfor %}
+    </select>
+    <button type="submit" class="tombol-kecil">Cari</button>
+    <a href="{{ url_for('transaksi.daftar') }}">Atur ulang</a>
+  </p>
+</form>
+
 {% if daftar_transaksi %}
 <table>
   <thead>
@@ -43,6 +59,8 @@
   </tbody>
 </table>
 {% else %}
-<p class="teks-muted">Belum ada transaksi.</p>
+<p class="teks-muted">
+  {% if ada_pencarian %}Tidak ada transaksi yang cocok.{% else %}Belum ada transaksi.{% endif %}
+</p>
 {% endif %}
 {% endblock %}

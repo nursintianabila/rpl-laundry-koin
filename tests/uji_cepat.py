@@ -74,4 +74,37 @@ ada("masih dipakai pada transaksi", r)
 r = kirim(f"/layanan/{id_lay}/hapus")
 ada("masih dipakai pada transaksi", r)
 
+
+# --- autentikasi dan otorisasi (Jobsheet 11) ---
+c_tamu = aplikasi.app.test_client()
+r = c_tamu.get("/layanan")
+assert r.status_code == 302 and "/login" in r.headers.get("Location", ""), "tamu harus dialihkan ke login"
+
+r = c_tamu.post("/login", data={"username_email": "admin@example.com", "password": "salah"}, follow_redirects=True)
+assert "Nama pengguna atau kata sandi salah." in r.text
+r = c_tamu.post("/login", data={"username_email": "tidakada@example.com", "password": "x"}, follow_redirects=True)
+assert "Nama pengguna atau kata sandi salah." in r.text
+
+r = c_tamu.post("/login?next=https://jahat.example", data={"username_email": "admin@example.com", "password": "admin123"})
+assert r.headers.get("Location", "").endswith("/transaksi") or r.headers.get("Location", "").endswith("/layanan"), "next luar situs harus diabaikan"
+
+# kata sandi tersimpan sebagai hash
+with models.koneksi() as db:
+    baris = db.execute("SELECT password_hash FROM pengguna WHERE username_email = ?", ("admin@example.com",)).fetchone()
+assert baris["password_hash"].startswith(("scrypt:", "pbkdf2:")), "kata sandi harus tersimpan sebagai hash"
+
+# peran terbatas (pemilik) mendapat 403 pada halaman dan POST terlarang
+c_pemilik = aplikasi.app.test_client()
+c_pemilik.post("/login", data={"username_email": "pemilik@example.com", "password": "pemilik123"})
+r = c_pemilik.get("/pelanggan")
+assert r.status_code == 403, "pemilik tidak boleh membuka data pelanggan"
+r = c_pemilik.post("/pelanggan/1/hapus")
+assert r.status_code == 403, "pemilik tidak boleh menghapus pelanggan lewat POST"
+
+# peran penuh (admin) berhasil
+c_admin = aplikasi.app.test_client()
+c_admin.post("/login", data={"username_email": "admin@example.com", "password": "admin123"})
+r = c_admin.get("/pelanggan")
+assert r.status_code == 200, "admin boleh membuka data pelanggan"
+
 print("SEMUA UJI LULUS")

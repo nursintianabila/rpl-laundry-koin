@@ -9,10 +9,10 @@ Pencocokan manual dilakukan pada 10 entri acak: 1, 3, 4, 7, 8, 9, 11, 15, 16, 23
 
 | Keputusan | Jumlah | Persen |
 |---|---|---|
-| Terima | 14 | 56,0% |
-| Ubah | 11 | 44,0% |
+| Terima | 18 | 60,0% |
+| Ubah | 12 | 40,0% |
 | Tolak | 0 | 0,0% |
-| Total | 25 | 100% |
+| Total | 30 | 100% |
 
 ### Jenis galat AI
 

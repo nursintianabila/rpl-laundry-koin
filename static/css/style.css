@@ -1,0 +1,111 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  color: #222;
+}
+
+header {
+  background: #1f4e79;
+  color: #fff;
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header .merek {
+  font-weight: bold;
+}
+
+nav {
+  background: #e8eef5;
+  padding: 8px 20px;
+}
+
+nav a,
+nav span {
+  margin-right: 16px;
+  color: #1f4e79;
+  text-decoration: none;
+}
+
+nav a.aktif {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+nav span.nonaktif {
+  color: #8a8a8a;
+}
+
+main {
+  padding: 20px;
+  max-width: 960px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 12px;
+}
+
+th,
+td {
+  border: 1px solid #c9d3de;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background: #f2f6fa;
+}
+
+.pesan {
+  background: #e6f4ea;
+  border: 1px solid #9ed0a9;
+  padding: 8px 12px;
+}
+
+.galat {
+  background: #fdecea;
+  border: 1px solid #e6a19a;
+  padding: 8px 12px;
+}
+
+.tombol {
+  display: inline-block;
+  background: #1f4e79;
+  color: #fff;
+  padding: 8px 14px;
+  text-decoration: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.teks-muted {
+  color: #8a8a8a;
+}
+
+.aksi form {
+  display: inline;
+}
+
+.aksi a,
+.aksi button {
+  margin-right: 4px;
+}
+
+.tombol-kecil {
+  display: inline-block;
+  background: #1f4e79;
+  color: #fff;
+  padding: 4px 10px;
+  text-decoration: none;
+  border: 0;
+  cursor: pointer;
+  font-size: 0.9em;
+}
+
+.tombol-kecil.bahaya {
+  background: #a33;
+}

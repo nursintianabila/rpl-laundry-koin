@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block judul %}Sistem Informasi Laundry Koin{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <header>
+    <span class="merek">SISTEM INFORMASI LAUNDRY KOIN</span>
+    <span>Pengguna | Logout</span>
+  </header>
+  <nav>
+    <span class="nonaktif" title="Belum tersedia">Dashboard</span>
+    <span class="nonaktif" title="Belum tersedia">Transaksi</span>
+    <a href="{{ url_for('layanan.daftar') }}">Layanan</a>
+    <span class="nonaktif" title="Belum tersedia">Laporan</span>
+  </nav>
+  <main>
+    {% for kategori, pesan in get_flashed_messages(with_categories=true) %}
+      <p class="{{ 'galat' if kategori == 'galat' else 'pesan' }}">{{ pesan }}</p>
+    {% endfor %}
+    {% block isi %}{% endblock %}
+  </main>
+</body>
+</html>

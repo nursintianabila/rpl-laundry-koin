@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block judul %}Layanan dan Harga{% endblock %}
+
+{% block isi %}
+<h1>LAYANAN DAN HARGA</h1>
+
+<p>
+  <a class="tombol" href="{{ url_for('layanan.tambah') }}">+ Tambah Layanan</a>
+</p>
+
+{% if daftar_layanan %}
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nama Layanan</th>
+      <th>Harga</th>
+      <th>Aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for layanan in daftar_layanan %}
+    <tr>
+      <td>{{ layanan.id_layanan }}</td>
+      <td>{{ layanan.nama_layanan }}</td>
+      <td>{{ layanan.harga | rupiah }}</td>
+      <td class="aksi">
+        <a href="{{ url_for('layanan.ubah', id_layanan=layanan.id_layanan) }}">Ubah</a>
+        <form method="post"
+              action="{{ url_for('layanan.hapus', id_layanan=layanan.id_layanan) }}"
+              onsubmit="return confirm('Yakin ingin menghapus layanan ini?');">
+          <button type="submit" class="tombol-kecil bahaya">Hapus</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="teks-muted">Belum ada data layanan.</p>
+{% endif %}
+{% endblock %}

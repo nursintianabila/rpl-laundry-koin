@@ -56,6 +56,75 @@ def semua_pelanggan():
         ).fetchall()
 
 
+def semua_transaksi():
+    """Mengambil daftar transaksi dengan JOIN ke pelanggan dan layanan."""
+    with koneksi() as db:
+        return db.execute(
+            """
+            SELECT t.id_transaksi,
+                   t.id_pelanggan,
+                   t.id_layanan,
+                   t.tanggal,
+                   t.berat,
+                   t.total_biaya,
+                   p.nama_pelanggan,
+                   l.nama_layanan,
+                   l.harga AS harga_layanan
+            FROM transaksi AS t
+            JOIN pelanggan AS p ON p.id_pelanggan = t.id_pelanggan
+            JOIN layanan AS l ON l.id_layanan = t.id_layanan
+            ORDER BY t.id_transaksi DESC
+            """
+        ).fetchall()
+
+
+def ambil_transaksi(id_transaksi):
+    """Mengambil satu transaksi berdasarkan ID, atau None bila tidak ada."""
+    with koneksi() as db:
+        return db.execute(
+            """
+            SELECT t.id_transaksi,
+                   t.id_pelanggan,
+                   t.id_layanan,
+                   t.tanggal,
+                   t.berat,
+                   t.total_biaya,
+                   p.nama_pelanggan,
+                   l.nama_layanan,
+                   l.harga AS harga_layanan
+            FROM transaksi AS t
+            JOIN pelanggan AS p ON p.id_pelanggan = t.id_pelanggan
+            JOIN layanan AS l ON l.id_layanan = t.id_layanan
+            WHERE t.id_transaksi = ?
+            """,
+            (id_transaksi,),
+        ).fetchone()
+
+
+def tambah_transaksi(id_pelanggan, id_layanan, tanggal, berat, total_biaya):
+    """Menyimpan transaksi baru dan mengembalikan ID yang dibuat."""
+    with koneksi() as db:
+        hasil = db.execute(
+            """
+            INSERT INTO transaksi
+            (id_pelanggan, id_layanan, tanggal, berat, total_biaya)
+            VALUES (?, ?, ?, ?, ?)
+            """,
+            (id_pelanggan, id_layanan, tanggal, berat, total_biaya),
+        )
+        return hasil.lastrowid
+
+
+def hapus_transaksi(id_transaksi):
+    """Menghapus transaksi; mengembalikan jumlah baris terhapus."""
+    with koneksi() as db:
+        hasil = db.execute(
+            "DELETE FROM transaksi WHERE id_transaksi = ?",
+            (id_transaksi,),
+        )
+        return hasil.rowcount
+
+
 def ambil_pelanggan(id_pelanggan):
     """Mengambil satu pelanggan berdasarkan ID, atau None bila tidak ada."""
     with koneksi() as db:

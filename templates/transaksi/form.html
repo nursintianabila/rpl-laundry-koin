@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block judul %}{{ judul }}{% endblock %}
+
+{% block isi %}
+<h1>{{ judul | upper }}</h1>
+
+{% if galat %}
+<div class="galat">
+  <p>Periksa kembali isian berikut:</p>
+  <ul>
+    {% for pesan in galat %}
+    <li>{{ pesan }}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+<form method="post" action="{{ aksi }}">
+  <p>
+    <label for="id_pelanggan">Pelanggan</label><br>
+    <select id="id_pelanggan" name="id_pelanggan" required>
+      <option value="">-- pilih pelanggan --</option>
+      {% for p in daftar_pelanggan %}
+      <option value="{{ p.id_pelanggan }}" {% if isian.id_pelanggan|string == p.id_pelanggan|string %}selected{% endif %}>
+        {{ p.nama_pelanggan }}
+      </option>
+      {% endfor %}
+    </select>
+  </p>
+  <p>
+    <label for="id_layanan">Layanan</label><br>
+    <select id="id_layanan" name="id_layanan" required>
+      <option value="">-- pilih layanan --</option>
+      {% for l in daftar_layanan %}
+      <option value="{{ l.id_layanan }}" {% if isian.id_layanan|string == l.id_layanan|string %}selected{% endif %}>
+        {{ l.nama_layanan }} ({{ l.harga | rupiah }})
+      </option>
+      {% endfor %}
+    </select>
+  </p>
+  <p>
+    <label for="berat">Berat (kg)</label><br>
+    <input type="number" id="berat" name="berat" min="0" step="0.1"
+           value="{{ isian.berat }}" required>
+  </p>
+  <p>
+    <label for="tanggal">Tanggal (TTTT-BB-HH)</label><br>
+    <input type="text" id="tanggal" name="tanggal" maxlength="10"
+           value="{{ isian.tanggal }}" required>
+  </p>
+  <p>
+    <button type="submit" class="tombol">Simpan</button>
+    <a href="{{ url_for('transaksi.daftar') }}">Batal</a>
+  </p>
+</form>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block judul %}Login{% endblock %}
+
+{% block isi %}
+<h1>LOGIN</h1>
+
+{% if galat is defined and galat %}
+<div class="galat">
+  <ul>
+    {% for pesan in galat %}
+    <li>{{ pesan }}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+{% for kategori, pesan in get_flashed_messages(with_categories=true) %}
+  <p class="{{ 'galat' if kategori == 'galat' else 'pesan' }}">{{ pesan }}</p>
+{% endfor %}
+
+<form method="post" action="{{ url_for('auth.login', next=next) }}">
+  <p>
+    <label for="username_email">Nama pengguna (email)</label><br>
+    <input type="email" id="username_email" name="username_email" required>
+  </p>
+  <p>
+    <label for="password">Kata sandi</label><br>
+    <input type="password" id="password" name="password" required>
+  </p>
+  <p>
+    <button type="submit" class="tombol">Masuk</button>
+  </p>
+</form>
+{% endblock %}

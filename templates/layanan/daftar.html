@@ -25,7 +25,9 @@
       <td>{{ layanan.id_layanan }}</td>
       <td>{{ layanan.nama_layanan }}</td>
       <td>{{ layanan.harga | rupiah }}</td>
-      <td><span class="teks-muted" title="Tersedia pada tahap berikutnya">—</span></td>
+      <td class="aksi">
+        <a href="{{ url_for('layanan.ubah', id_layanan=layanan.id_layanan) }}">Ubah</a>
+      </td>
     </tr>
     {% endfor %}
   </tbody>

@@ -78,3 +78,27 @@ def tambah_layanan(nama_layanan, harga):
             (nama_layanan, harga),
         )
         return hasil.lastrowid
+
+
+def ubah_layanan(id_layanan, nama_layanan, harga):
+    """Mengubah nama dan harga layanan; mengembalikan jumlah baris terubah."""
+    with koneksi() as db:
+        hasil = db.execute(
+            """
+            UPDATE layanan
+            SET nama_layanan = ?, harga = ?
+            WHERE id_layanan = ?
+            """,
+            (nama_layanan, harga, id_layanan),
+        )
+        return hasil.rowcount
+
+
+def hapus_layanan(id_layanan):
+    """Menghapus layanan; kegagalan kunci asing diteruskan ke pemanggil."""
+    with koneksi() as db:
+        hasil = db.execute(
+            "DELETE FROM layanan WHERE id_layanan = ?",
+            (id_layanan,),
+        )
+        return hasil.rowcount

@@ -1,4 +1,12 @@
-from flask import Blueprint, flash, redirect, render_template, request, url_for
+from flask import (
+    Blueprint,
+    abort,
+    flash,
+    redirect,
+    render_template,
+    request,
+    url_for,
+)
 
 from services import layanan_service
 
@@ -32,13 +40,50 @@ def tambah():
         except layanan_service.ValidasiLayananError as kesalahan:
             galat = kesalahan.daftar_pesan
         else:
-            flash("Layanan berhasil ditambahkan.")
+            flash("Layanan berhasil ditambahkan.", "sukses")
             return redirect(url_for("layanan.daftar"))
 
     return render_template(
         "layanan/form.html",
         judul="Tambah Layanan",
         aksi=url_for("layanan.tambah"),
+        isian=isian,
+        galat=galat,
+    )
+
+
+@bp.route("/layanan/<int:id_layanan>/ubah", methods=["GET", "POST"])
+def ubah(id_layanan):
+    """Menampilkan dan memproses form ubah layanan."""
+    layanan = layanan_service.ambil_layanan(id_layanan)
+    if layanan is None:
+        abort(404)
+
+    isian = {
+        "nama_layanan": layanan["nama_layanan"],
+        "harga": layanan["harga"],
+    }
+    galat = []
+
+    if request.method == "POST":
+        isian["nama_layanan"] = request.form.get("nama_layanan", "")
+        isian["harga"] = request.form.get("harga", "")
+        try:
+            layanan_service.ubah_layanan(
+                id_layanan,
+                isian["nama_layanan"],
+                isian["harga"],
+            )
+        except layanan_service.ValidasiLayananError as kesalahan:
+            galat = kesalahan.daftar_pesan
+        else:
+            flash("Layanan berhasil diubah.", "sukses")
+            return redirect(url_for("layanan.daftar"))
+
+    return render_template(
+        "layanan/form.html",
+        judul="Ubah Layanan",
+        aksi=url_for("layanan.ubah", id_layanan=id_layanan),
         isian=isian,
         galat=galat,
     )

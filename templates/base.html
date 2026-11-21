@@ -22,6 +22,9 @@
     .tombol.nonaktif { background: #8a8a8a; cursor: default; }
     .teks-muted { color: #8a8a8a; }
     .aksi form { display: inline; }
+    .aksi a, .aksi button { margin-right: 4px; }
+    .tombol-kecil { display: inline-block; background: #1f4e79; color: #fff; padding: 4px 10px; text-decoration: none; border: 0; cursor: pointer; font-size: 0.9em; }
+    .tombol-kecil.bahaya { background: #a33; }
   </style>
 </head>
 <body>
@@ -36,8 +39,8 @@
     <span class="nonaktif" title="Belum tersedia">Laporan</span>
   </nav>
   <main>
-    {% for pesan in get_flashed_messages() %}
-      <p class="pesan">{{ pesan }}</p>
+    {% for kategori, pesan in get_flashed_messages(with_categories=true) %}
+      <p class="{{ 'galat' if kategori == 'galat' else 'pesan' }}">{{ pesan }}</p>
     {% endfor %}
     {% block isi %}{% endblock %}
   </main>

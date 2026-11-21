@@ -108,6 +108,76 @@ class UjiLayanan(unittest.TestCase):
         self.assertIn("TAMBAH LAYANAN", teks)
         self.assertIn("Nama Layanan", teks)
 
+    def tambah_contoh(self, nama="Cuci Kering", harga=7000):
+        return models.tambah_layanan(nama, harga)
+
+    def test_form_ubah_menampilkan_data_lama(self):
+        id_layanan = self.tambah_contoh()
+
+        hasil = self.klien.get(f"/layanan/{id_layanan}/ubah")
+        teks = hasil.data.decode("utf-8")
+
+        self.assertEqual(hasil.status_code, 200)
+        self.assertIn("UBAH LAYANAN", teks)
+        self.assertIn('value="Cuci Kering"', teks)
+        self.assertIn('value="7000"', teks)
+
+    def test_ubah_layanan_berhasil(self):
+        id_layanan = self.tambah_contoh()
+
+        hasil = self.klien.post(
+            f"/layanan/{id_layanan}/ubah",
+            data={"nama_layanan": "Cuci Setrika", "harga": "10000"},
+            follow_redirects=True,
+        )
+        teks = hasil.data.decode("utf-8")
+
+        self.assertEqual(hasil.status_code, 200)
+        self.assertIn("Layanan berhasil diubah.", teks)
+        self.assertIn("Cuci Setrika", teks)
+        self.assertIn("Rp 10.000", teks)
+
+        layanan = models.ambil_layanan(id_layanan)
+        self.assertEqual(layanan["nama_layanan"], "Cuci Setrika")
+        self.assertEqual(layanan["harga"], 10000)
+
+    def test_ubah_nama_sendiri_tetap_diizinkan(self):
+        id_layanan = self.tambah_contoh()
+
+        hasil = self.klien.post(
+            f"/layanan/{id_layanan}/ubah",
+            data={"nama_layanan": "Cuci Kering", "harga": "8000"},
+            follow_redirects=True,
+        )
+
+        self.assertEqual(hasil.status_code, 200)
+        self.assertIn("Layanan berhasil diubah.", hasil.data.decode("utf-8"))
+        self.assertEqual(models.ambil_layanan(id_layanan)["harga"], 8000)
+
+    def test_ubah_nama_duplikat_ditolak(self):
+        self.tambah_contoh("Cuci Kering", 7000)
+        id_kedua = self.tambah_contoh("Setrika", 6000)
+
+        hasil = self.klien.post(
+            f"/layanan/{id_kedua}/ubah",
+            data={"nama_layanan": "Cuci Kering", "harga": "6500"},
+        )
+        teks = hasil.data.decode("utf-8")
+
+        self.assertEqual(hasil.status_code, 200)
+        self.assertIn("Nama layanan sudah ada.", teks)
+        self.assertEqual(models.ambil_layanan(id_kedua)["nama_layanan"], "Setrika")
+
+    def test_ubah_id_tidak_ditemukan_menghasilkan_404(self):
+        hasil = self.klien.get("/layanan/999/ubah")
+        self.assertEqual(hasil.status_code, 404)
+
+        hasil = self.klien.post(
+            "/layanan/999/ubah",
+            data={"nama_layanan": "Tidak Ada", "harga": "1000"},
+        )
+        self.assertEqual(hasil.status_code, 404)
+
 
 if __name__ == "__main__":
     unittest.main()

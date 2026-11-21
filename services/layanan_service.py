@@ -1,5 +1,7 @@
 """Logika bisnis pengelolaan layanan laundry."""
 
+import sqlite3
+
 import models
 
 BATAS_NAMA = 100
@@ -13,9 +15,18 @@ class ValidasiLayananError(ValueError):
         super().__init__(" ".join(daftar_pesan))
 
 
+class LayananDipakaiError(ValueError):
+    """Layanan tidak dapat dihapus karena masih dipakai transaksi."""
+
+
 def daftar_layanan():
     """Mengambil daftar layanan yang akan ditampilkan kepada pengguna."""
     return models.semua_layanan()
+
+
+def ambil_layanan(id_layanan):
+    """Mengambil satu layanan berdasarkan ID."""
+    return models.ambil_layanan(id_layanan)
 
 
 def periksa_isian(nama_layanan, harga, id_layanan=None):
@@ -56,3 +67,25 @@ def tambah_layanan(nama_layanan, harga):
     if galat:
         raise ValidasiLayananError(galat)
     return models.tambah_layanan(nilai["nama_layanan"], nilai["harga"])
+
+
+def ubah_layanan(id_layanan, nama_layanan, harga):
+    """Mengubah layanan setelah isian dinyatakan valid."""
+    nilai, galat = periksa_isian(nama_layanan, harga, id_layanan=id_layanan)
+    if galat:
+        raise ValidasiLayananError(galat)
+    return models.ubah_layanan(
+        id_layanan,
+        nilai["nama_layanan"],
+        nilai["harga"],
+    )
+
+
+def hapus_layanan(id_layanan):
+    """Menghapus layanan dan menerjemahkan galat kunci asing."""
+    try:
+        return models.hapus_layanan(id_layanan)
+    except sqlite3.IntegrityError as kesalahan:
+        raise LayananDipakaiError(
+            "Layanan tidak dapat dihapus karena masih dipakai pada transaksi."
+        ) from kesalahan

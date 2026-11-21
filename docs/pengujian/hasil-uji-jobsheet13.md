@@ -12,12 +12,18 @@ tests/test_draf_ai.py ......  [100%]
 6 passed in 3.00s
 ```
 
-### 3. Hasil uji_cepat
+### 3. Hasil unittest
+```text
+Ran 48 tests in 23.552s
+OK
+```
+
+### 4. Hasil uji_cepat
 ```text
 SEMUA UJI LULUS
 ```
 
-### 4. Mutasi yang diuji (Langkah 6)
+### 5. Mutasi yang diuji (Langkah 6)
 | Mutasi | Uji yang gagal | Hasil |
 |---|---|---|
 | Hapus decorator peran pada /pelanggan | test_peran_terbatas_403 | FAILED (200 != 403) |
@@ -26,7 +32,7 @@ SEMUA UJI LULUS
 
 Semua mutasi menyebabkan kegagalan uji, sehingga uji dianggap efektif.
 
-### 5. Catatan
-- Modul unittest lama (test_layanan, test_pelanggan, test_transaksi) belum disesuaikan dengan autentikasi; akan diperbarui pada Langkah 12/15. uji_cepat.py sudah disesuaikan.
+### 6. Catatan
+- Modul unittest lama sudah disesuaikan dengan autentikasi dan CSRF; seluruh 48 uji lulus.
 - Test case tercatat pada docs/pengujian/test-case.md (36 TC).
 - Matriks keterlacakan pada docs/matriks-keterlacakan.md.

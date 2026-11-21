@@ -9,6 +9,7 @@ if str(ROOT) not in sys.path:
 
 import app
 import models
+from services import auth_service  # noqa: E402
 
 
 class UjiPelanggan(unittest.TestCase):
@@ -23,9 +24,26 @@ class UjiPelanggan(unittest.TestCase):
         self.addCleanup(setattr, models, "DB_PATH", self.db_lama)
 
         models.init_db()
+        auth_service.buat_pengguna("pemilik@example.com", "pemilik123", "Pemilik")
+        auth_service.buat_pengguna("admin@example.com", "admin123", "Admin/Operator")
         self.aplikasi = app.buat_aplikasi()
         self.aplikasi.config.update(TESTING=True)
         self.klien = self.aplikasi.test_client()
+        with self.klien.session_transaction() as sess:
+            sess["csrf_token"] = "test-token"
+        self.klien.post("/login", data={"username_email": "admin@example.com", "password": "admin123", "csrf_token": "test-token"})
+        _orig_post = self.klien.post
+        def _post(url, **kw):
+            d = kw.get("data")
+            if not isinstance(d, dict):
+                d = {}
+            d = dict(d)
+            d.setdefault("csrf_token", "test-token")
+            kw["data"] = d
+            with self.klien.session_transaction() as sess:
+                sess["csrf_token"] = "test-token"
+            return _orig_post(url, **kw)
+        self.klien.post = _post
 
     def tambah_contoh(self, nama="Pelanggan Uji"):
         return models.tambah_pelanggan(nama)

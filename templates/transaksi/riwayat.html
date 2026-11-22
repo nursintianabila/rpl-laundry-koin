@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block judul %}Riwayat Transaksi{% endblock %}
+
+{% block isi %}
+<h1>RIWAYAT TRANSAKSI</h1>
+<p class="teks-muted">Halaman ini hanya-baca. Untuk mencatat atau mengubah transaksi, gunakan akun Admin/Operator.</p>
+
+<form method="get" action="{{ url_for('transaksi.riwayat') }}">
+  <p>
+    <input name="q" value="{{ kata }}" placeholder="Cari pelanggan atau layanan">
+    <select name="layanan">
+      <option value="">Semua layanan</option>
+      {% for l in daftar_layanan %}
+      <option value="{{ l.id_layanan }}" {% if id_layanan_terpilih == l.id_layanan %}selected{% endif %}>
+        {{ l.nama_layanan }}
+      </option>
+      {% endfor %}
+    </select>
+    <button type="submit" class="tombol-kecil">Cari</button>
+    <a href="{{ url_for('transaksi.riwayat') }}">Atur ulang</a>
+  </p>
+</form>
+
+{% if daftar_transaksi %}
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Pelanggan</th>
+      <th>Layanan</th>
+      <th>Tanggal</th>
+      <th>Berat (kg)</th>
+      <th>Total Biaya</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for t in daftar_transaksi %}
+    <tr>
+      <td>{{ t.id_transaksi }}</td>
+      <td>{{ t.nama_pelanggan }}</td>
+      <td>{{ t.nama_layanan }}</td>
+      <td>{{ t.tanggal }}</td>
+      <td>{{ t.berat }}</td>
+      <td>{{ t.total_biaya | rupiah }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="teks-muted">
+  {% if ada_pencarian %}Tidak ada transaksi yang cocok.{% else %}Belum ada transaksi.{% endif %}
+</p>
+{% endif %}
+{% endblock %}

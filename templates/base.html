@@ -24,7 +24,7 @@
   <nav>
     {% if g.pengguna %}
       {% if g.pengguna.nama_peran == 'Pemilik' %}
-        <a href="{{ url_for('transaksi.daftar') }}">Transaksi</a>
+        <a href="{{ url_for('transaksi.riwayat') }}">Riwayat Transaksi</a>
         <a href="{{ url_for('layanan.daftar') }}">Layanan</a>
       {% elif g.pengguna.nama_peran == 'Admin/Operator' %}
         <a href="{{ url_for('transaksi.daftar') }}">Transaksi</a>

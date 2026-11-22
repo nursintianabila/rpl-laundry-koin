@@ -8,7 +8,7 @@ bp = Blueprint("transaksi", __name__)
 
 
 @bp.route("/transaksi")
-@auth_service.peran_diperlukan("Pemilik", "Admin/Operator")
+@auth_service.peran_diperlukan("Admin/Operator")
 def daftar():
     """Menampilkan halaman daftar transaksi dengan pencarian dan penyaringan."""
     kata = request.args.get("q", "").strip()
@@ -20,6 +20,27 @@ def daftar():
 
     return render_template(
         "transaksi/daftar.html",
+        daftar_transaksi=daftar_transaksi,
+        kata=kata,
+        id_layanan_terpilih=id_layanan,
+        daftar_layanan=daftar_layanan,
+        ada_pencarian=bool(kata or id_layanan),
+    )
+
+
+@bp.route("/riwayat")
+@auth_service.peran_diperlukan("Pemilik", "Admin/Operator")
+def riwayat():
+    """Menampilkan riwayat transaksi hanya-baca untuk Pemilik."""
+    kata = request.args.get("q", "").strip()
+    layanan_teks = request.args.get("layanan", "").strip()
+    id_layanan = int(layanan_teks) if layanan_teks.isdigit() else None
+
+    daftar_transaksi = transaksi_service.daftar_transaksi(kata, id_layanan)
+    daftar_layanan = transaksi_service.daftar_layanan()
+
+    return render_template(
+        "transaksi/riwayat.html",
         daftar_transaksi=daftar_transaksi,
         kata=kata,
         id_layanan_terpilih=id_layanan,

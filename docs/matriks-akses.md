@@ -5,7 +5,8 @@
 | Halaman / aksi | Tamu | Pemilik | Admin/Operator |
 |---|---|---|---|
 | Halaman login | ✓ | ✓ | ✓ |
-| Daftar transaksi | login | ✓ | ✓ |
+| Daftar transaksi | login | ✗ | ✓ |
+| Riwayat transaksi (hanya-baca) | login | ✓ | ✓ |
 | Tambah transaksi | login | ✗ | ✓ |
 | Ubah transaksi | login | ✗ | ✓ |
 | Hapus transaksi | login | ✗ | ✓ |

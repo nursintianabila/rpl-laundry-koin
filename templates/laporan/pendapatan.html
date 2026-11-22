@@ -18,6 +18,11 @@
 
 {% if galat %}
 <p class="galat">{{ galat }}</p>
+{% else %}
+<p>
+  <a class="tombol" href="{{ url_for('laporan.ekspor', format='csv', mulai=mulai, akhir=akhir) }}">Unduh CSV (Excel)</a>
+  <a class="tombol" href="{{ url_for('laporan.ekspor', format='pdf', mulai=mulai, akhir=akhir) }}">Unduh PDF</a>
+</p>
 {% endif %}
 
 {% if data.ringkasan %}

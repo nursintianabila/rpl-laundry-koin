@@ -1,6 +1,6 @@
-from flask import Blueprint, abort, g, render_template, request
+from flask import Blueprint, g, render_template
 
-from services import auth_service, dashboard_service, ekspor_service, transaksi_service
+from services import auth_service, dashboard_service
 
 bp = Blueprint("dashboard", __name__)
 
@@ -20,19 +20,3 @@ def indeks():
         statistik=statistik,
         notifikasi=notifikasi,
     )
-
-
-@bp.route("/dashboard/ekspor")
-@auth_service.peran_diperlukan("Pemilik")
-def ekspor():
-    """Mengunduh daftar transaksi sebagai CSV atau PDF."""
-    format_ekspor = request.args.get("format", "csv").lower()
-    if format_ekspor not in ("csv", "pdf"):
-        abort(400)
-
-    baris = transaksi_service.daftar_transaksi()
-    statistik = dashboard_service.statistik()
-
-    if format_ekspor == "csv":
-        return ekspor_service.buat_csv(baris, statistik)
-    return ekspor_service.buat_pdf(baris, statistik)

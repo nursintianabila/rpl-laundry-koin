@@ -36,3 +36,8 @@ def ringkasan(mulai, akhir):
         "ringkasan": models.ringkasan_pendapatan(mulai_valid, akhir_valid),
         "per_layanan": models.pendapatan_per_layanan(mulai_valid, akhir_valid),
     }
+
+
+def daftar_transaksi(mulai, akhir):
+    """Mengambil daftar transaksi dalam periode laporan."""
+    return models.transaksi_periode(mulai, akhir)

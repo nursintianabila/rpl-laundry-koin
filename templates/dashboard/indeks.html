@@ -6,11 +6,6 @@
 <h1>DASHBOARD</h1>
 <p class="teks-muted">Ringkasan kondisi usaha laundry koin.</p>
 
-<p>
-  <a class="tombol" href="{{ url_for('dashboard.ekspor', format='csv') }}">Unduh CSV (Excel)</a>
-  <a class="tombol" href="{{ url_for('dashboard.ekspor', format='pdf') }}">Unduh PDF</a>
-</p>
-
 {% if notifikasi %}
 <div class="pesan">
   <strong>Notifikasi transaksi selesai:</strong>

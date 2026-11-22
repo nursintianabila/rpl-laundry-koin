@@ -348,6 +348,28 @@ def hapus_layanan(id_layanan):
         return hasil.rowcount
 
 
+def transaksi_periode(mulai=None, akhir=None):
+    """Mengambil seluruh transaksi dalam rentang tanggal untuk laporan."""
+    sql = """
+        SELECT t.id_transaksi, t.tanggal, t.berat, t.total_biaya,
+               t.status_transaksi, p.nama_pelanggan, l.nama_layanan
+        FROM transaksi AS t
+        JOIN pelanggan AS p ON p.id_pelanggan = t.id_pelanggan
+        JOIN layanan AS l ON l.id_layanan = t.id_layanan
+        WHERE 1 = 1
+    """
+    param = []
+    if mulai:
+        sql += " AND t.tanggal >= ?"
+        param.append(mulai)
+    if akhir:
+        sql += " AND t.tanggal <= ?"
+        param.append(akhir)
+    sql += " ORDER BY t.id_transaksi DESC"
+    with koneksi() as db:
+        return db.execute(sql, param).fetchall()
+
+
 def statistik_dashboard():
     """Mengambil ringkasan data untuk dashboard Pemilik."""
     with koneksi() as db:

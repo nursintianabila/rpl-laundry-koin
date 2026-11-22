@@ -59,9 +59,9 @@
 ### 9. Melihat dashboard dan laporan (Pemilik)
 
 1. Pilih menu **Dashboard** untuk melihat jumlah layanan, pelanggan, transaksi, total pendapatan, dan transaksi terbaru.
-   - Klik **Unduh CSV (Excel)** atau **Unduh PDF** untuk menyimpan data transaksi. CSV langsung dibuka di Excel; PDF untuk arsip.
    - Admin juga melihat notifikasi transaksi yang baru ditandai selesai, misalnya "Nabila — Cuci Kering sudah selesai."
 2. Pilih menu **Laporan** untuk melihat total pendapatan. Isi tanggal mulai dan tanggal akhir bila ingin membatasi periode, lalu klik **Tampilkan**.
+   - Klik **Unduh CSV (Excel)** atau **Unduh PDF** untuk menyimpan laporan sesuai periode tersebut. CSV langsung dibuka di Excel; PDF untuk arsip.
 3. Menu **Riwayat Transaksi** menampilkan daftar transaksi hanya-baca untuk Pemilik.
 
 ### 10. Memperbarui status mesin (Admin/Operator)

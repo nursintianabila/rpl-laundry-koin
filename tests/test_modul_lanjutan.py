@@ -93,9 +93,9 @@ class UjiModulLanjutan(unittest.TestCase):
         self.assertIn("Status mesin berhasil diperbarui.", hasil.data.decode("utf-8"))
         self.assertEqual(models.ambil_mesin(1)["status_mesin"], "Rusak")
 
-    def test_admin_tidak_boleh_dashboard_dan_laporan(self):
+    def test_admin_boleh_dashboard_tidak_boleh_laporan(self):
         klien = self.klien_login("admin@example.com", "admin123")
-        self.assertEqual(klien.get("/dashboard").status_code, 403)
+        self.assertEqual(klien.get("/dashboard").status_code, 200)
         self.assertEqual(klien.get("/laporan").status_code, 403)
 
 

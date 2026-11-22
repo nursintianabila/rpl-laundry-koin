@@ -35,6 +35,7 @@
       <th>Tanggal</th>
       <th>Berat (kg)</th>
       <th>Total Biaya</th>
+      <th>Status</th>
       <th>Aksi</th>
     </tr>
   </thead>
@@ -47,7 +48,15 @@
       <td>{{ t.tanggal }}</td>
       <td>{{ t.berat }}</td>
       <td>{{ t.total_biaya | rupiah }}</td>
+      <td>{{ t.status_transaksi or 'Diproses' }}</td>
       <td class="aksi">
+        {% if t.status_transaksi != 'Selesai' %}
+        <form method="post"
+              action="{{ url_for('transaksi.selesai', id_transaksi=t.id_transaksi) }}">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button type="submit" class="tombol-kecil">Tandai Selesai</button>
+        </form>
+        {% endif %}
         <form method="post"
               action="{{ url_for('transaksi.hapus', id_transaksi=t.id_transaksi) }}"
               onsubmit="return confirm('Yakin ingin menghapus transaksi ini?');">

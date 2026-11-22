@@ -32,6 +32,7 @@
       <th>Tanggal</th>
       <th>Berat (kg)</th>
       <th>Total Biaya</th>
+      <th>Status</th>
     </tr>
   </thead>
   <tbody>
@@ -43,6 +44,7 @@
       <td>{{ t.tanggal }}</td>
       <td>{{ t.berat }}</td>
       <td>{{ t.total_biaya | rupiah }}</td>
+      <td>{{ t.status_transaksi or 'Diproses' }}</td>
     </tr>
     {% endfor %}
   </tbody>

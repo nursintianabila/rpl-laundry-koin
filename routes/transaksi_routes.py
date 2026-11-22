@@ -124,3 +124,14 @@ def hapus(id_transaksi):
     transaksi_service.hapus_transaksi(id_transaksi)
     flash("Transaksi berhasil dihapus.", "sukses")
     return redirect(url_for("transaksi.daftar"))
+
+
+@bp.route("/transaksi/<int:id_transaksi>/selesai", methods=["POST"])
+@auth_service.peran_diperlukan("Admin/Operator")
+def selesai(id_transaksi):
+    """Menandai transaksi sebagai selesai."""
+    if transaksi_service.ambil_transaksi(id_transaksi) is None:
+        abort(404)
+    transaksi_service.tandai_selesai(id_transaksi)
+    flash("Transaksi ditandai selesai.", "sukses")
+    return redirect(url_for("transaksi.daftar"))

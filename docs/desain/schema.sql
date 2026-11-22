@@ -70,6 +70,8 @@ CREATE TABLE IF NOT EXISTS transaksi (
         CHECK (berat > 0),
     total_biaya INTEGER NOT NULL
         CHECK (total_biaya >= 0),
+    status_transaksi VARCHAR(20) NOT NULL DEFAULT 'Diproses'
+        CHECK (status_transaksi IN ('Diproses', 'Selesai')),
     FOREIGN KEY (id_pelanggan)
         REFERENCES pelanggan(id_pelanggan)
         ON UPDATE CASCADE

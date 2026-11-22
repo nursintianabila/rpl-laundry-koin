@@ -29,6 +29,7 @@
         <a href="{{ url_for('laporan.pendapatan') }}">Laporan</a>
         <a href="{{ url_for('layanan.daftar') }}">Layanan</a>
       {% elif g.pengguna.nama_peran == 'Admin/Operator' %}
+        <a href="{{ url_for('dashboard.indeks') }}">Dashboard</a>
         <a href="{{ url_for('transaksi.daftar') }}">Transaksi</a>
         <a href="{{ url_for('pelanggan.daftar') }}">Pelanggan</a>
         <a href="{{ url_for('layanan.daftar') }}">Layanan</a>

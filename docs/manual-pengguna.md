@@ -48,7 +48,7 @@
 4. Pilih layanan, isi berat (kg) dan tanggal (TTTT-BB-HH).
 5. Klik **Simpan**.
 6. Total biaya dihitung otomatis dari berat dikali harga layanan.
-
+7. Setelah pakaian selesai dicuci, pada baris transaksi klik **Tandai Selesai**.
 ### 8. Mencari transaksi
 
 1. Pada halaman Transaksi, ketik nama pelanggan atau layanan pada kolom pencarian.
@@ -59,6 +59,7 @@
 ### 9. Melihat dashboard dan laporan (Pemilik)
 
 1. Pilih menu **Dashboard** untuk melihat jumlah layanan, pelanggan, transaksi, total pendapatan, dan transaksi terbaru.
+   - Admin juga melihat notifikasi transaksi yang baru ditandai selesai, misalnya "Nabila — Cuci Kering sudah selesai."
 2. Pilih menu **Laporan** untuk melihat total pendapatan. Isi tanggal mulai dan tanggal akhir bila ingin membatasi periode, lalu klik **Tampilkan**.
 3. Menu **Riwayat Transaksi** menampilkan daftar transaksi hanya-baca untuk Pemilik.
 

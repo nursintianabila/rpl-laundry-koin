@@ -32,6 +32,18 @@ def init_db():
         with koneksi() as db:
             db.executescript(SCHEMA.read_text(encoding="utf-8"))
     seed_peran()
+    _migrasi_status_transaksi()
+
+
+def _migrasi_status_transaksi():
+    """Menambah kolom status_transaksi bila database lama belum memilikinya."""
+    with koneksi() as db:
+        kolom = [baris[1] for baris in db.execute("PRAGMA table_info(transaksi)")]
+        if "status_transaksi" not in kolom:
+            db.execute(
+                "ALTER TABLE transaksi ADD COLUMN status_transaksi "
+                "VARCHAR(20) NOT NULL DEFAULT 'Diproses'"
+            )
 
 
 def seed_peran():
@@ -134,6 +146,7 @@ def cari_transaksi(kata="", id_layanan=None):
                t.tanggal,
                t.berat,
                t.total_biaya,
+               t.status_transaksi,
                p.nama_pelanggan,
                l.nama_layanan,
                l.harga AS harga_layanan
@@ -167,6 +180,7 @@ def ambil_transaksi(id_transaksi):
                    t.tanggal,
                    t.berat,
                    t.total_biaya,
+                   t.status_transaksi,
                    p.nama_pelanggan,
                    l.nama_layanan,
                    l.harga AS harga_layanan
@@ -201,6 +215,34 @@ def hapus_transaksi(id_transaksi):
             (id_transaksi,),
         )
         return hasil.rowcount
+
+
+def tandai_selesai(id_transaksi):
+    """Menandai transaksi sebagai selesai; mengembalikan jumlah baris terubah."""
+    with koneksi() as db:
+        hasil = db.execute(
+            "UPDATE transaksi SET status_transaksi = 'Selesai' WHERE id_transaksi = ?",
+            (id_transaksi,),
+        )
+        return hasil.rowcount
+
+
+def transaksi_selesai_terbaru(batas=5):
+    """Mengambil transaksi yang baru selesai untuk notifikasi dashboard."""
+    with koneksi() as db:
+        return db.execute(
+            """
+            SELECT t.id_transaksi, t.tanggal, t.berat, t.total_biaya,
+                   p.nama_pelanggan, l.nama_layanan
+            FROM transaksi AS t
+            JOIN pelanggan AS p ON p.id_pelanggan = t.id_pelanggan
+            JOIN layanan AS l ON l.id_layanan = t.id_layanan
+            WHERE t.status_transaksi = 'Selesai'
+            ORDER BY t.id_transaksi DESC
+            LIMIT ?
+            """,
+            (batas,),
+        ).fetchall()
 
 
 def ambil_pelanggan(id_pelanggan):
@@ -318,7 +360,7 @@ def statistik_dashboard():
             ).fetchone()[0],
             "transaksi_terbaru": db.execute(
                 """
-                SELECT t.id_transaksi, t.tanggal, t.total_biaya,
+                SELECT t.id_transaksi, t.tanggal, t.total_biaya, t.status_transaksi,
                        p.nama_pelanggan, l.nama_layanan
                 FROM transaksi AS t
                 JOIN pelanggan AS p ON p.id_pelanggan = t.id_pelanggan

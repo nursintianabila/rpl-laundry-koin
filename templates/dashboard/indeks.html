@@ -6,6 +6,17 @@
 <h1>DASHBOARD</h1>
 <p class="teks-muted">Ringkasan kondisi usaha laundry koin.</p>
 
+{% if notifikasi %}
+<div class="pesan">
+  <strong>Notifikasi transaksi selesai:</strong>
+  <ul>
+    {% for n in notifikasi %}
+    <li>{{ n.nama_pelanggan }} — {{ n.nama_layanan }} ({{ n.tanggal }}) sudah selesai.</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+
 <table>
   <tbody>
     <tr><th>Jumlah layanan</th><td>{{ statistik.jumlah_layanan }}</td></tr>

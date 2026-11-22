@@ -112,3 +112,13 @@ def tambah_transaksi(id_pelanggan, id_layanan, tanggal, berat):
 def hapus_transaksi(id_transaksi):
     """Menghapus transaksi; mengembalikan jumlah baris terhapus."""
     return models.hapus_transaksi(id_transaksi)
+
+
+def tandai_selesai(id_transaksi):
+    """Menandai transaksi selesai."""
+    return models.tandai_selesai(id_transaksi)
+
+
+def transaksi_selesai_terbaru(batas=5):
+    """Mengambil notifikasi transaksi selesai terbaru."""
+    return models.transaksi_selesai_terbaru(batas)

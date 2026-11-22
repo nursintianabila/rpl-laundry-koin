@@ -49,6 +49,7 @@ Kamus data disusun berdasarkan hasil normalisasi, ERD, dan kebutuhan fungsional 
 | tanggal | TEXT | Ya | - | Menyimpan tanggal transaksi dengan format YYYY-MM-DD. | KF-10 |
 | berat | REAL | Ya | - | Berat laundry harus lebih besar dari nol dan menggunakan satuan kilogram. | KF-10 |
 | total_biaya | INTEGER | Ya | - | Disimpan dalam bilangan bulat rupiah, tidak boleh negatif, dan mencatat biaya saat transaksi dilakukan. | KF-10 |
+| status_transaksi | VARCHAR(20) | Ya | - | Nilai `Diproses` atau `Selesai`; ditandai selesai oleh Admin/Operator. | KF-04 |
 
 ### 7. Kamus Data Tabel Mesin
 

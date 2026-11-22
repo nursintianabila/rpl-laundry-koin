@@ -14,7 +14,7 @@ Dibuat sebagai proyek mata kuliah Rekayasa Perangkat Lunak, Prodi D3 Teknologi I
 - Pencatatan transaksi dengan total biaya dihitung otomatis dari berat dan harga layanan.
 - Pencarian dan penyaringan transaksi berparameter.
 - Dashboard dan laporan pendapatan untuk Pemilik; riwayat transaksi hanya-baca.
-- Pembaruan status mesin untuk Admin/Operator.
+- Pembaruan status mesin dan notifikasi transaksi selesai untuk Admin/Operator.
 - Pemisahan lapisan Routes → Services → Models → Database.
 - Token CSRF, batas percobaan login, dan header keamanan dasar.
 

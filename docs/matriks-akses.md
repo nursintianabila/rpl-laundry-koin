@@ -5,13 +5,14 @@
 | Halaman / aksi | Tamu | Pemilik | Admin/Operator |
 |---|---|---|---|
 | Halaman login | ✓ | ✓ | ✓ |
-| Dashboard | login | ✓ | ✗ |
+| Dashboard | login | ✓ | ✓ |
 | Laporan pendapatan | login | ✓ | ✗ |
 | Daftar transaksi | login | ✗ | ✓ |
 | Riwayat transaksi (hanya-baca) | login | ✓ | ✓ |
 | Tambah transaksi | login | ✗ | ✓ |
 | Ubah transaksi | login | ✗ | ✓ |
 | Hapus transaksi | login | ✗ | ✓ |
+| Tandai transaksi selesai | login | ✗ | ✓ |
 | Daftar layanan | login | ✓ | ✓ |
 | Tambah layanan | login | ✓ | ✗ |
 | Ubah layanan | login | ✓ | ✗ |

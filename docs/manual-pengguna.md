@@ -55,7 +55,19 @@
 3. Klik **Cari**.
 4. Gunakan **Atur ulang** untuk menghapus pencarian.
 
-### 9. Keluar dari aplikasi
+### 9. Melihat dashboard dan laporan (Pemilik)
+
+1. Pilih menu **Dashboard** untuk melihat jumlah layanan, pelanggan, transaksi, total pendapatan, dan transaksi terbaru.
+2. Pilih menu **Laporan** untuk melihat total pendapatan. Isi tanggal mulai dan tanggal akhir bila ingin membatasi periode, lalu klik **Tampilkan**.
+3. Menu **Riwayat Transaksi** menampilkan daftar transaksi hanya-baca untuk Pemilik.
+
+### 10. Memperbarui status mesin (Admin/Operator)
+
+1. Pilih menu **Status Mesin**.
+2. Pilih status baru pada baris mesin yang bersangkutan.
+3. Klik **Simpan**. Pesan "Status mesin berhasil diperbarui." akan muncul.
+
+### 11. Keluar dari aplikasi
 
 1. Klik tombol **Keluar** di kanan atas.
 2. Anda akan kembali ke halaman login.

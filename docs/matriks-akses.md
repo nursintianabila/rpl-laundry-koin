@@ -5,6 +5,8 @@
 | Halaman / aksi | Tamu | Pemilik | Admin/Operator |
 |---|---|---|---|
 | Halaman login | ✓ | ✓ | ✓ |
+| Dashboard | login | ✓ | ✗ |
+| Laporan pendapatan | login | ✓ | ✗ |
 | Daftar transaksi | login | ✗ | ✓ |
 | Riwayat transaksi (hanya-baca) | login | ✓ | ✓ |
 | Tambah transaksi | login | ✗ | ✓ |
@@ -18,6 +20,7 @@
 | Tambah pelanggan | login | ✗ | ✓ |
 | Ubah pelanggan | login | ✗ | ✓ |
 | Hapus pelanggan | login | ✗ | ✓ (hanya jika tidak dipakai transaksi) |
+| Status mesin | login | ✗ | ✓ |
 | Logout (POST) | login | ✓ | ✓ |
 
 Keterangan: ✓ = diizinkan, ✗ = ditolak (403), login = harus masuk lebih dulu.

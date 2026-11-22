@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block judul %}Status Mesin{% endblock %}
+
+{% block isi %}
+<h1>STATUS MESIN</h1>
+<p class="teks-muted">Perbarui kondisi mesin laundry.</p>
+
+{% if daftar_mesin %}
+<table>
+  <thead>
+    <tr><th>ID</th><th>Mesin</th><th>Status</th><th>Aksi</th></tr>
+  </thead>
+  <tbody>
+    {% for m in daftar_mesin %}
+    <tr>
+      <td>{{ m.id_mesin }}</td>
+      <td>{{ m.informasi_mesin }}</td>
+      <td>{{ m.status_mesin }}</td>
+      <td>
+        <form method="post" action="{{ url_for('mesin.ubah_status', id_mesin=m.id_mesin) }}">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <select name="status_mesin">
+            {% for status in ['Tersedia', 'Sedang digunakan', 'Rusak', 'Perawatan'] %}
+            <option value="{{ status }}" {% if m.status_mesin == status %}selected{% endif %}>{{ status }}</option>
+            {% endfor %}
+          </select>
+          <button type="submit" class="tombol-kecil">Simpan</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="teks-muted">Belum ada data mesin.</p>
+{% endif %}
+{% endblock %}

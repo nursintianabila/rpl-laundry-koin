@@ -3,7 +3,15 @@ import os
 from flask import Flask, abort, g, render_template, request
 
 import models
-from routes import auth_routes, layanan_routes, pelanggan_routes, transaksi_routes
+from routes import (
+    auth_routes,
+    dashboard_routes,
+    laporan_routes,
+    layanan_routes,
+    mesin_routes,
+    pelanggan_routes,
+    transaksi_routes,
+)
 from services import auth_service
 
 
@@ -28,7 +36,10 @@ def buat_aplikasi():
 
     models.init_db()
     app.register_blueprint(auth_routes.bp)
+    app.register_blueprint(dashboard_routes.bp)
+    app.register_blueprint(laporan_routes.bp)
     app.register_blueprint(layanan_routes.bp)
+    app.register_blueprint(mesin_routes.bp)
     app.register_blueprint(pelanggan_routes.bp)
     app.register_blueprint(transaksi_routes.bp)
 

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block judul %}Dashboard{% endblock %}
+
+{% block isi %}
+<h1>DASHBOARD</h1>
+<p class="teks-muted">Ringkasan kondisi usaha laundry koin.</p>
+
+<table>
+  <tbody>
+    <tr><th>Jumlah layanan</th><td>{{ statistik.jumlah_layanan }}</td></tr>
+    <tr><th>Jumlah pelanggan</th><td>{{ statistik.jumlah_pelanggan }}</td></tr>
+    <tr><th>Jumlah transaksi</th><td>{{ statistik.jumlah_transaksi }}</td></tr>
+    <tr><th>Total pendapatan</th><td>{{ statistik.total_pendapatan | rupiah }}</td></tr>
+  </tbody>
+</table>
+
+<h2>Transaksi terbaru</h2>
+{% if statistik.transaksi_terbaru %}
+<table>
+  <thead>
+    <tr><th>ID</th><th>Tanggal</th><th>Pelanggan</th><th>Layanan</th><th>Total</th></tr>
+  </thead>
+  <tbody>
+    {% for t in statistik.transaksi_terbaru %}
+    <tr>
+      <td>{{ t.id_transaksi }}</td>
+      <td>{{ t.tanggal }}</td>
+      <td>{{ t.nama_pelanggan }}</td>
+      <td>{{ t.nama_layanan }}</td>
+      <td>{{ t.total_biaya | rupiah }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="teks-muted">Belum ada transaksi.</p>
+{% endif %}
+{% endblock %}

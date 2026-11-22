@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block judul %}Laporan Pendapatan{% endblock %}
+
+{% block isi %}
+<h1>LAPORAN PENDAPATAN</h1>
+
+<form method="get" action="{{ url_for('laporan.pendapatan') }}">
+  <p>
+    <label for="mulai">Tanggal mulai</label>
+    <input type="date" id="mulai" name="mulai" value="{{ mulai }}">
+    <label for="akhir">Tanggal akhir</label>
+    <input type="date" id="akhir" name="akhir" value="{{ akhir }}">
+    <button type="submit" class="tombol-kecil">Tampilkan</button>
+    <a href="{{ url_for('laporan.pendapatan') }}">Atur ulang</a>
+  </p>
+</form>
+
+{% if galat %}
+<p class="galat">{{ galat }}</p>
+{% endif %}
+
+{% if data.ringkasan %}
+<table>
+  <tbody>
+    <tr><th>Jumlah transaksi</th><td>{{ data.ringkasan.jumlah }}</td></tr>
+    <tr><th>Total pendapatan</th><td>{{ data.ringkasan.total | rupiah }}</td></tr>
+    <tr><th>Periode</th><td>{{ data.mulai or 'semua' }} s/d {{ data.akhir or 'semua' }}</td></tr>
+  </tbody>
+</table>
+
+<h2>Pendapatan per layanan</h2>
+{% if data.per_layanan %}
+<table>
+  <thead><tr><th>Layanan</th><th>Jumlah transaksi</th><th>Total</th></tr></thead>
+  <tbody>
+    {% for l in data.per_layanan %}
+    <tr>
+      <td>{{ l.nama_layanan }}</td>
+      <td>{{ l.jumlah }}</td>
+      <td>{{ l.total | rupiah }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="teks-muted">Tidak ada transaksi pada periode ini.</p>
+{% endif %}
+{% endif %}
+{% endblock %}

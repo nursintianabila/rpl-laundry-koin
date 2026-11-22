@@ -288,3 +288,87 @@ def hapus_layanan(id_layanan):
             (id_layanan,),
         )
         return hasil.rowcount
+
+
+def statistik_dashboard():
+    """Mengambil ringkasan data untuk dashboard Pemilik."""
+    with koneksi() as db:
+        return {
+            "jumlah_layanan": db.execute("SELECT COUNT(*) FROM layanan").fetchone()[0],
+            "jumlah_pelanggan": db.execute("SELECT COUNT(*) FROM pelanggan").fetchone()[0],
+            "jumlah_transaksi": db.execute("SELECT COUNT(*) FROM transaksi").fetchone()[0],
+            "total_pendapatan": db.execute(
+                "SELECT COALESCE(SUM(total_biaya), 0) FROM transaksi"
+            ).fetchone()[0],
+            "transaksi_terbaru": db.execute(
+                """
+                SELECT t.id_transaksi, t.tanggal, t.total_biaya,
+                       p.nama_pelanggan, l.nama_layanan
+                FROM transaksi AS t
+                JOIN pelanggan AS p ON p.id_pelanggan = t.id_pelanggan
+                JOIN layanan AS l ON l.id_layanan = t.id_layanan
+                ORDER BY t.id_transaksi DESC
+                LIMIT 5
+                """
+            ).fetchall(),
+        }
+
+
+def ringkasan_pendapatan(mulai=None, akhir=None):
+    """Menghitung total pendapatan dan jumlah transaksi dalam rentang tanggal."""
+    sql = "SELECT COALESCE(SUM(total_biaya), 0) AS total, COUNT(*) AS jumlah FROM transaksi WHERE 1 = 1"
+    param = []
+    if mulai:
+        sql += " AND tanggal >= ?"
+        param.append(mulai)
+    if akhir:
+        sql += " AND tanggal <= ?"
+        param.append(akhir)
+    with koneksi() as db:
+        return db.execute(sql, param).fetchone()
+
+
+def pendapatan_per_layanan(mulai=None, akhir=None):
+    """Mengelompokkan pendapatan per layanan dalam rentang tanggal."""
+    sql = """
+        SELECT l.nama_layanan, COUNT(*) AS jumlah,
+               COALESCE(SUM(t.total_biaya), 0) AS total
+        FROM transaksi AS t
+        JOIN layanan AS l ON l.id_layanan = t.id_layanan
+        WHERE 1 = 1
+    """
+    param = []
+    if mulai:
+        sql += " AND t.tanggal >= ?"
+        param.append(mulai)
+    if akhir:
+        sql += " AND t.tanggal <= ?"
+        param.append(akhir)
+    sql += " GROUP BY l.id_layanan ORDER BY total DESC"
+    with koneksi() as db:
+        return db.execute(sql, param).fetchall()
+
+
+def semua_mesin():
+    """Mengambil daftar mesin beserta statusnya."""
+    with koneksi() as db:
+        return db.execute(
+            "SELECT id_mesin, informasi_mesin, status_mesin FROM mesin ORDER BY id_mesin"
+        ).fetchall()
+
+
+def ambil_mesin(id_mesin):
+    with koneksi() as db:
+        return db.execute(
+            "SELECT id_mesin, informasi_mesin, status_mesin FROM mesin WHERE id_mesin = ?",
+            (id_mesin,),
+        ).fetchone()
+
+
+def ubah_status_mesin(id_mesin, status_mesin):
+    with koneksi() as db:
+        hasil = db.execute(
+            "UPDATE mesin SET status_mesin = ? WHERE id_mesin = ?",
+            (status_mesin, id_mesin),
+        )
+        return hasil.rowcount

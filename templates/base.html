@@ -24,19 +24,19 @@
   <nav>
     {% if g.pengguna %}
       {% if g.pengguna.nama_peran == 'Pemilik' %}
+        <a href="{{ url_for('dashboard.indeks') }}">Dashboard</a>
         <a href="{{ url_for('transaksi.riwayat') }}">Riwayat Transaksi</a>
+        <a href="{{ url_for('laporan.pendapatan') }}">Laporan</a>
         <a href="{{ url_for('layanan.daftar') }}">Layanan</a>
       {% elif g.pengguna.nama_peran == 'Admin/Operator' %}
         <a href="{{ url_for('transaksi.daftar') }}">Transaksi</a>
         <a href="{{ url_for('pelanggan.daftar') }}">Pelanggan</a>
         <a href="{{ url_for('layanan.daftar') }}">Layanan</a>
+        <a href="{{ url_for('mesin.daftar') }}">Status Mesin</a>
       {% endif %}
     {% else %}
       <a href="{{ url_for('auth.login') }}">Login</a>
     {% endif %}
-    <span class="nonaktif" title="Belum tersedia">Dashboard</span>
-    <span class="nonaktif" title="Belum tersedia">Laporan</span>
-    <span class="nonaktif" title="Belum tersedia">Status Mesin</span>
   </nav>
   <main>
     {% for kategori, pesan in get_flashed_messages(with_categories=true) %}

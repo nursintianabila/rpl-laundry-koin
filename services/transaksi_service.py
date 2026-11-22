@@ -26,6 +26,12 @@ def daftar_pelanggan():
     return models.semua_pelanggan()
 
 
+def cari_pelanggan(kata=""):
+    """Mencari pelanggan untuk autocomplete pada form transaksi."""
+    from services import pelanggan_service
+    return pelanggan_service.cari_pelanggan(kata)
+
+
 def daftar_layanan():
     """Mengambil daftar layanan untuk pilihan pada form transaksi."""
     return models.semua_layanan()

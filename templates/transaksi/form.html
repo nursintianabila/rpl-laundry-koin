@@ -16,18 +16,20 @@
 </div>
 {% endif %}
 
+{% set ns = namespace(nama='') %}
+{% for p in daftar_pelanggan %}
+  {% if isian.id_pelanggan|string == p.id_pelanggan|string %}{% set ns.nama = p.nama_pelanggan %}{% endif %}
+{% endfor %}
+
 <form method="post" action="{{ aksi }}">
   <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
   <p>
-    <label for="id_pelanggan">Pelanggan</label><br>
-    <select id="id_pelanggan" name="id_pelanggan" required>
-      <option value="">-- pilih pelanggan --</option>
-      {% for p in daftar_pelanggan %}
-      <option value="{{ p.id_pelanggan }}" {% if isian.id_pelanggan|string == p.id_pelanggan|string %}selected{% endif %}>
-        {{ p.nama_pelanggan }}
-      </option>
-      {% endfor %}
-    </select>
+    <label for="cari_pelanggan">Pelanggan</label><br>
+    <input type="hidden" id="id_pelanggan" name="id_pelanggan" value="{{ isian.id_pelanggan }}">
+    <input type="text" id="cari_pelanggan" value="{{ ns.nama }}"
+           placeholder="Ketik nama pelanggan, misal: nur" autocomplete="off" required>
+    <span class="teks-muted">Ketik sebagian nama, lalu pilih dari daftar.</span>
+    <div id="saran-pelanggan" class="saran"></div>
   </p>
   <p>
     <label for="id_layanan">Layanan</label><br>
@@ -55,4 +57,53 @@
     <a href="{{ url_for('transaksi.daftar') }}">Batal</a>
   </p>
 </form>
+
+<script>
+(function () {
+  const kolom = document.getElementById("cari_pelanggan");
+  const tersembunyi = document.getElementById("id_pelanggan");
+  const wadah = document.getElementById("saran-pelanggan");
+  let daftar = [];
+
+  function tutup() { wadah.innerHTML = ""; daftar = []; }
+
+  function pilih(item) {
+    tersembunyi.value = item.id;
+    kolom.value = item.nama;
+    tutup();
+  }
+
+  kolom.addEventListener("input", async function () {
+    tersembunyi.value = "";
+    const q = kolom.value.trim();
+    if (!q) { tutup(); return; }
+    try {
+      const respons = await fetch("{{ url_for('transaksi.api_pelanggan') }}?q=" + encodeURIComponent(q));
+      daftar = await respons.json();
+      wadah.innerHTML = "";
+      daftar.forEach(function (item) {
+        const tombol = document.createElement("button");
+        tombol.type = "button";
+        tombol.className = "saran-item";
+        tombol.textContent = item.nama;
+        tombol.addEventListener("click", function () { pilih(item); });
+        wadah.appendChild(tombol);
+      });
+    } catch (e) {
+      tutup();
+    }
+  });
+
+  kolom.addEventListener("keydown", function (e) {
+    if (e.key === "Enter" && daftar.length) {
+      e.preventDefault();
+      pilih(daftar[0]);
+    }
+  });
+
+  document.addEventListener("click", function (e) {
+    if (!wadah.contains(e.target) && e.target !== kolom) tutup();
+  });
+})();
+</script>
 {% endblock %}

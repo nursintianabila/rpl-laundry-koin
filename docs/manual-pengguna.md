@@ -44,9 +44,10 @@
 
 1. Pilih menu **Transaksi**.
 2. Klik **+ Tambah Transaksi**.
-3. Pilih pelanggan dan layanan, isi berat (kg) dan tanggal (TTTT-BB-HH).
-4. Klik **Simpan**.
-5. Total biaya dihitung otomatis dari berat × harga layanan.
+3. Ketik sebagian nama pelanggan pada kolom **Pelanggan** (misal `nur`); daftar saran akan muncul, lalu klik nama yang diinginkan atau tekan Enter untuk memilih saran pertama.
+4. Pilih layanan, isi berat (kg) dan tanggal (TTTT-BB-HH).
+5. Klik **Simpan**.
+6. Total biaya dihitung otomatis dari berat dikali harga layanan.
 
 ### 8. Mencari transaksi
 

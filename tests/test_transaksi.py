@@ -219,11 +219,15 @@ class UjiTransaksi(unittest.TestCase):
         from services import pelanggan_service
         pelanggan_service.tambah_pelanggan("<b>tes</b>")
 
+        hasil_api = self.klien.get("/api/pelanggan?q=%3Cb%3E")
+        data = hasil_api.get_json()
+        self.assertEqual(hasil_api.status_code, 200)
+        self.assertEqual(data[0]["nama"], "<b>tes</b>")
+
         hasil = self.klien.get("/transaksi/tambah")
         teks = hasil.data.decode("utf-8")
-
         self.assertEqual(hasil.status_code, 200)
-        self.assertIn("&lt;b&gt;tes&lt;/b&gt;", teks)
+        self.assertNotIn("<b>tes</b>", teks)
 
     def test_tanggal_tanpa_tanda_hubung_ditolak(self):
         hasil = self.klien.post(

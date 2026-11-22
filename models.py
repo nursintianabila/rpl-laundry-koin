@@ -99,6 +99,22 @@ def semua_pelanggan():
         ).fetchall()
 
 
+def cari_pelanggan(kata=""):
+    """Mencari pelanggan berdasarkan nama dengan LIKE berparameter."""
+    pola = "%" + _escape_like(kata) + "%"
+    with koneksi() as db:
+        return db.execute(
+            """
+            SELECT id_pelanggan, nama_pelanggan
+            FROM pelanggan
+            WHERE nama_pelanggan LIKE ? ESCAPE '\\'
+            ORDER BY nama_pelanggan
+            LIMIT 10
+            """,
+            (pola,),
+        ).fetchall()
+
+
 def _escape_like(teks):
     """Netralkan % dan _ agar dicari sebagai huruf biasa."""
     return teks.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")

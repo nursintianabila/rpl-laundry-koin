@@ -1,6 +1,15 @@
 from datetime import date
 
-from flask import Blueprint, abort, flash, redirect, render_template, request, url_for
+from flask import (
+    Blueprint,
+    abort,
+    flash,
+    jsonify,
+    redirect,
+    render_template,
+    request,
+    url_for,
+)
 
 from services import auth_service, transaksi_service
 
@@ -47,6 +56,18 @@ def riwayat():
         daftar_layanan=daftar_layanan,
         ada_pencarian=bool(kata or id_layanan),
     )
+
+
+@bp.route("/api/pelanggan")
+@auth_service.peran_diperlukan("Admin/Operator")
+def api_pelanggan():
+    """Mengembalikan saran pelanggan untuk autocomplete (GET berparameter)."""
+    kata = request.args.get("q", "").strip()
+    hasil = transaksi_service.cari_pelanggan(kata)
+    return jsonify([
+        {"id": p["id_pelanggan"], "nama": p["nama_pelanggan"]}
+        for p in hasil
+    ])
 
 
 @bp.route("/transaksi/tambah", methods=["GET", "POST"])

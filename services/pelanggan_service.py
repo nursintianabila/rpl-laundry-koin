@@ -24,6 +24,11 @@ def daftar_pelanggan():
     return models.semua_pelanggan()
 
 
+def cari_pelanggan(kata=""):
+    """Mencari pelanggan untuk pilihan pada form transaksi."""
+    return models.cari_pelanggan(kata)
+
+
 def ambil_pelanggan(id_pelanggan):
     """Mengambil satu pelanggan berdasarkan ID."""
     return models.ambil_pelanggan(id_pelanggan)

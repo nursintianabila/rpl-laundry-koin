@@ -109,3 +109,24 @@ th {
 .tombol-kecil.bahaya {
   background: #a33;
 }
+
+.saran {
+  position: relative;
+  max-width: 420px;
+}
+
+.saran-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: #fff;
+  border: 1px solid #c9d3de;
+  border-top: 0;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 0.95em;
+}
+
+.saran-item:hover {
+  background: #e8eef5;
+}
